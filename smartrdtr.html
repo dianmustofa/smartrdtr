@@ -1,0 +1,3816 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <title>DRAFT Peta RDTR DKI JAKARTA 2022</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.24/esri/themes/light/main.css"
+    />
+    <script src="https://js.arcgis.com/4.24/"></script>
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      hr.hitung {
+        border-top: 1px solid rgb(255, 255, 255);
+      }
+
+      body {
+        font-family: Arial;
+        padding: 10px;
+        background: #fff;
+      }
+
+      .header {
+        padding: 5px;
+        font-size: 12px;
+        text-align: center;
+        background: white;
+      }
+
+      .leftcolumn {
+        float: left;
+        width: 75%;
+      }
+
+      .rightcolumn {
+        float: left;
+        width: 25%;
+        padding-left: 10px;
+      }
+
+      .card {
+        background-color: white;
+        padding: 5px;
+        margin-top: 10px;
+        border-radius: 10px;
+      }
+
+      .row:after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+
+      .footer {
+        padding: 10px;
+        text-align: center;
+        background: #ddd;
+        margin-top: 20px;
+      }
+
+      @media screen and (max-width: 800px) {
+        .leftcolumn,
+        .rightcolumn {
+          width: 100%;
+          padding: 0;
+        }
+      }
+
+      #viewDiv {
+        padding: 10;
+        margin: 0;
+        height: 700px;
+        width: 100%;
+      }
+
+      @media screen and (max-width: 1440px) {
+        #viewDiv {
+          padding: 10;
+          margin: 0;
+          height: 750px;
+          width: 100%;
+        }
+      }
+
+      #layerToggle {
+        height: 760px;
+        width: 100%;
+      }
+
+      #searchInput {
+        background-image: url("https://www.w3schools.com/css/searchicon.png");
+        background-position: 10px 5px;
+        background-repeat: no-repeat;
+        width: 100%;
+        font-size: 16px;
+        padding: 12px 20px 12px 40px;
+        border: 1px solid #ddd;
+        margin-bottom: 12px;
+        height: 35px;
+      }
+
+      .esri-expand__content--expanded {
+        width: 250px;
+      }
+
+      #kegiatan-filter {
+        height: 760px;
+        width: 100%;
+      }
+
+      .kegiatan-item {
+        width: 100%;
+        padding: 15px;
+        text-align: center;
+        vertical-align: baseline;
+        cursor: pointer;
+      }
+
+      .kegiatan-item:focus {
+        background-color: dimgrey;
+      }
+
+      .kegiatan-item:hover {
+        background-color: dimgrey;
+      }
+
+      .scrollable-menu {
+        height: auto;
+        max-height: 130px;
+        overflow-x: hidden;
+        background-color: rgb(255, 255, 255);
+      }
+
+      .scrollable-menuService {
+        height: auto;
+        max-height: 420px;
+        overflow-x: hidden;
+        background-color: rgb(255, 255, 255);
+      }
+
+      #titleDiv {
+        padding: 10px;
+      }
+
+      #titleText {
+        font-size: 16pt;
+        font-weight: 60;
+        padding-bottom: 10px;
+      }
+
+      /* Perhitungan Intensitas */
+
+      .login-box {
+        padding: 20px;
+        background: #ffffff;
+        box-shadow: 2px 2px 8px 0px rgba(0, 0, 0, 0.15);
+        margin: 10px;
+        border-radius: 10px;
+        margin-top: 20px;
+      }
+
+      .login-box h3 {
+        margin: 0 0 30px;
+        font-size: 16px;
+        padding: 0;
+        color: rgb(0, 0, 0);
+        text-align: center;
+      }
+
+      .login-box p {
+        font-size: 12px;
+        margin: 0 0 15px;
+        padding: 0;
+        text-align: left;
+      }
+
+      .login-box .input-form-box {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+
+      .input-form-box .user-box {
+        width: 45%;
+      }
+
+      .login-box .user-box {
+        position: relative;
+      }
+
+      .login-box .user-box input {
+        width: 90%;
+        padding: 10px 0px;
+        font-size: 14px;
+        color: rgb(0, 0, 0);
+        margin-bottom: 25px;
+        margin-right: 10px;
+        border: none;
+        border-bottom: 1px solid rgb(0, 0, 0);
+        outline: none;
+        background: transparent;
+      }
+
+      .hasil {
+        width: 40%;
+        /* padding: 10px 0; */
+        font-size: 14px;
+        color: rgb(0, 0, 0);
+        margin-bottom: 20px;
+        border: none;
+        outline: none;
+        background: transparent;
+      }
+
+      .login-box .user-box label {
+        /* padding: 10px 0px; */
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 10px 0;
+        font-size: 14px;
+        color: rgb(0, 0, 0);
+        pointer-events: none;
+        transition: 0.5s;
+      }
+
+      /* .label2 {
+        margin-left: 135px;
+      } */
+
+      .login-box .user-box input:focus + label,
+      .login-box .user-box input:valid + label {
+        top: -20px;
+        left: 0;
+        color: rgb(0, 0, 0);
+        font-size: 12px;
+      }
+
+      @media (max-width: 670px) {
+        .login-box .input-form-box {
+          flex-direction: column;
+        }
+
+        .login-box .user-box {
+          width: 100%;
+        }
+
+        .login-box .user-box input {
+          width: 100%;
+        }
+      }
+
+      /* Select Option */
+      .select {
+        margin-bottom: 15px;
+        color: #000;
+        min-width: 15ch;
+        border: 2px solid rgba(6, 58, 121, 0.15);
+        border-radius: 8px;
+        padding: 10px 24px;
+        cursor: pointer;
+        background: #fff;
+        width: 20%;
+      }
+
+      .select2 {
+        margin-bottom: 15px;
+        color: rgb(0, 0, 0);
+        min-width: 15ch;
+        /* border: 2px solid rgba(6, 58, 121, 0.15); */
+        border: 1px solid var(--select-border);
+        border-bottom: 1px solid rgb(0, 0, 0);
+        padding: 1em;
+        cursor: pointer;
+        background: transparent;
+        width: 100%;
+      }
+
+      .btn_unduh {
+        background: #7293ce;
+        border-radius: 10px;
+        box-shadow: #7293ce 0 10px 10px -10px;
+        box-sizing: border-box;
+        color: #ffffff;
+        cursor: pointer;
+        font-family: "Arial";
+        font-size: 14px;
+        font-weight: 650;
+        /* line-height: 26px; */
+        /* opacity: 1; */
+        /* outline: 0 solid transparent; */
+        padding: 10px 24px;
+        /* user-select: none; */
+        /* -webkit-user-select: none; */
+        /* touch-action: manipulation; */
+        width: fit-content;
+        /* word-break: break-word; */
+        border: 0;
+        margin-left: 10px;
+      }
+
+      .btn_video {
+        background: #416918;
+        border-radius: 10px;
+        box-shadow: #7293ce 0 10px 10px -10px;
+        box-sizing: border-box;
+        color: #ffffff;
+        cursor: pointer;
+        font-family: "Arial";
+        font-size: 14px;
+        font-weight: 650;
+        /* line-height: 26px; */
+        /* opacity: 1; */
+        /* outline: 0 solid transparent; */
+        padding: 10px 24px;
+        /* user-select: none; */
+        /* -webkit-user-select: none; */
+        /* touch-action: manipulation; */
+        width: fit-content;
+        /* word-break: break-word; */
+        border: 0;
+        margin-left: 10px;
+        margin-bottom: 20px;
+      }
+
+      .btn_hitung {
+        background: #21b847;
+        border-radius: 10px;
+        box-shadow: #7293ce 0 10px 10px -10px;
+        box-sizing: border-box;
+        color: #ffffff;
+        cursor: pointer;
+        font-family: "Arial";
+        font-size: 14px;
+        font-weight: 650;
+        padding: 10px 24px;
+        width: 45%;
+        border: 0;
+        margin-left: 10px;
+      }
+
+      .login-box .user-box select:focus + label,
+      .login-box .user-box select:valid + label {
+        top: -20px;
+        left: 0;
+        color: rgb(0, 0, 0);
+        font-size: 12px;
+      }
+
+      .rightcolumn {
+        flex: 2;
+        height: 95vh;
+        /* color: white;  */
+        background-color: transparent;
+        /* overflow: scroll; */
+      }
+
+      /* End Select Option */
+
+      /* Measure */
+
+      /* #topbar {
+      background: #fff;
+      padding: 10px;
+    } */
+
+      .action-button {
+        font-size: 16px;
+        /* background-color: transparent; */
+        border: 1px solid #d3d3d3;
+        color: #6e6e6e;
+        height: 32px;
+        width: 32px;
+        text-align: center;
+        box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
+      }
+
+      .action-button:hover,
+      .action-button:focus {
+        background: #0079c1;
+        color: #e4e4e4;
+      }
+
+      .active {
+        background: #0079c1;
+        color: #e4e4e4;
+      }
+
+      .esri-area-measurement-2d__clear-button {
+        display: none;
+      }
+
+      .esri-layer-list {
+        color: #323232;
+        /* background-color: #f3f3f3; */
+        /* padding: calc(var(--esri-widget-padding-v)*.5) calc(var(--esri-widget-padding-h)*.5); */
+        overflow-y: auto;
+        display: flex;
+        flex-flow: column;
+      }
+
+      /* .esri-area-measurement-2d {
+      display: none;
+    } */
+    </style>
+    <script>
+      require([
+        "esri/Map",
+        "esri/views/MapView",
+        "esri/layers/FeatureLayer",
+        "esri/widgets/Search",
+        "esri/widgets/Expand",
+        "esri/widgets/BasemapGallery",
+        "esri/widgets/LayerList",
+        "esri/widgets/Compass",
+        "esri/widgets/DistanceMeasurement2D",
+        "esri/widgets/AreaMeasurement2D",
+        "esri/layers/GroupLayer",
+        "esri/widgets/Fullscreen",
+        "esri/widgets/CoordinateConversion",
+        "esri/layers/TileLayer",
+        "esri/core/watchUtils",
+      ], function (
+        Map,
+        MapView,
+        FeatureLayer,
+        Search,
+        Expand,
+        BasemapGallery,
+        LayerList,
+        Compass,
+        DistanceMeasurement2D,
+        AreaMeasurement2D,
+        GroupLayer,
+        Fullscreen,
+        CoordinateConversion,
+        TileLayer,
+        watchUtils
+      ) {
+        var activeWidget = null;
+        // widget.visible = false;
+        let kegiatanLayerView;
+
+        // action popUp RDTR
+        const unduhThisAction = {
+          title: "Unduh Informasi",
+          id: "unduh-pdf",
+          image:
+            "https://upload.wikimedia.org/wikipedia/commons/4/43/Minimalist_info_Icon.png",
+        };
+        // Pop-up RDTR
+        const popuprdtr = {
+          title: "{NAMOBJ}",
+          content:
+            "<b>Zona</b> : {KODZON_1}<br><hr><b>Sub-Zona</b> : {KODSZN_1}<br><hr><b>Kelurahan</b> : {WADMKD}<br><hr><b>Kecamatan</b> : {WADMKC}<br><hr><b>Kabupaten/Kota</b> : {WADMKK}<br><hr><b>KDB</b> : {KDB}<br><hr><b>KLB</b> : {KLB}<br><hr><b>KTB</b> : {KTB}<br><hr><b>KDH</b> : {KDH}<br><hr><b>TPZ</b> : {TPZ_00}<br><hr><b>Diizinkan</b> : {IZN}<br><hr><b>Terbatas</b> : {TBT}<br><hr><b>Bersyarat</b> : {BST}",
+          actions: [unduhThisAction],
+        };
+        //Pop-up Rencana Struktur Ruang
+        const popupRencanaStruktur = {
+          title: "{NAMOBJ}",
+          content: "<hr><b>Nama</b> : {NAMOBJ}<br><b>Keterangan</b> : {REMARK}",
+        };
+
+        // Panggil Layer - layer
+        //Layer RDTR
+        const layerrdtr = new FeatureLayer({
+          url: "https://tataruang.jakarta.go.id/server/rest/services/RDTR_2022/Rencana_Pola_Ruang_RDTR_2022/FeatureServer",
+          title: "Rencana Detail Tata Ruang",
+          outFields: ["*"],
+          id: "RDTR",
+          popupTemplate: popuprdtr,
+          visible: true,
+          opacity: 0.6,
+        });
+        const layerStrukturPetaDasar = new TileLayer({
+          url: "https://tataruang.jakarta.go.id/server/rest/services/peta_dasar/Peta_Struktur_Jakarta_2018_Tanpa_Penutup/MapServer",
+          title: "Peta Dasar Struktur",
+        });
+        //Layer Rencana Struktur Ruang
+        const layerInfrastrukturTransportasi = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Rencana_Struktur_Ruang/FeatureServer/1",
+          title: "Peta Infrastruktur Transportasi",
+          visible: false,
+          popupTemplate: popupRencanaStruktur,
+        });
+        const layerInfrastrukturTelekomunikasi = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Rencana_Struktur_Ruang/FeatureServer/2",
+          title: "Peta Infrastruktur Telekomunikasi",
+          visible: false,
+          popupTemplate: popupRencanaStruktur,
+        });
+        const layerInfrastrukturSumberDayaAir = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Rencana_Struktur_Ruang/FeatureServer/3",
+          title: "Peta Infrastruktur Sumber Daya Air",
+          visible: false,
+          popupTemplate: popupRencanaStruktur,
+        });
+        const layerPengembanganPusatPelayanan = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Rencana_Struktur_Ruang/FeatureServer/4",
+          title: "Peta Pengembangan Pusat Pelayanan",
+          visible: false,
+          popupTemplate: popupRencanaStruktur,
+        });
+        const layerInfrastrukturPrasaranaLainnya = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Rencana_Struktur_Ruang/FeatureServer/5",
+          title: "Peta Infrastruktur Prasarana Lainnya",
+          visible: false,
+          popupTemplate: popupRencanaStruktur,
+        });
+        const layerJaringanPersampahan = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Rencana_Struktur_Ruang/FeatureServer/6",
+          title: "Peta Jaringan Persampahan",
+          visible: false,
+          popupTemplate: popupRencanaStruktur,
+        });
+        const layerInfrastrukturEnergi = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Rencana_Struktur_Ruang/FeatureServer/7",
+          title: "Peta Infrastruktur Energi",
+          visible: false,
+          popupTemplate: popupRencanaStruktur,
+        });
+        const layerInfrastrukturDrainase = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Rencana_Struktur_Ruang/FeatureServer/8",
+          title: "Peta Infrastruktur Drainase",
+          visible: false,
+          popupTemplate: popupRencanaStruktur,
+        });
+        const layerInfrastrukturPengelolaanAirLimbahdanPengelolaanLimbahB3 =
+          new FeatureLayer({
+            url: "https://jakartasatu.jakarta.go.id/server/rest/services/Rencana_Struktur_Ruang/FeatureServer/9",
+            title: "Peta Infrastruktur Pengelolaan Air Limbah",
+            visible: false,
+            popupTemplate: popupRencanaStruktur,
+          });
+        const layerInfrastrukturAirMinum = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Rencana_Struktur_Ruang/FeatureServer/10",
+          title: "Peta Infrastruktur Air Minum",
+          visible: false,
+          popupTemplate: popupRencanaStruktur,
+        });
+        const layerJaringanTransportasi = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Rencana_Struktur_Ruang/FeatureServer/11",
+          title: "Peta Jaringan Transportasi",
+          visible: false,
+          popupTemplate: popupRencanaStruktur,
+        });
+        const layerJaringanTelekomunikasi = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Rencana_Struktur_Ruang/FeatureServer/12",
+          title: "Peta Jaringan Telekomunikasi",
+          visible: false,
+          popupTemplate: popupRencanaStruktur,
+        });
+        const layerJaringanSumberDayaAir = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Rencana_Struktur_Ruang/FeatureServer/13",
+          title: "Peta Jaringan Sumber Daya Air",
+          visible: false,
+          popupTemplate: popupRencanaStruktur,
+        });
+        const layerJaringanPrasaranaLainnya = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Rencana_Struktur_Ruang/FeatureServer/14",
+          title: "Peta Jaringan Prasarana Lainnya",
+          visible: false,
+          popupTemplate: popupRencanaStruktur,
+        });
+        const layerJaringanEnergi = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Rencana_Struktur_Ruang/FeatureServer/15",
+          title: "Peta Jaringan Energi",
+          visible: false,
+          popupTemplate: popupRencanaStruktur,
+        });
+        const layerJaringanDrainase = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Rencana_Struktur_Ruang/FeatureServer/16",
+          title: "Peta Jaringan Drainase",
+          visible: false,
+          popupTemplate: popupRencanaStruktur,
+        });
+        const layerJaringanPengelolaanAirLimbahdanPengelolaanLimbahB3 =
+          new FeatureLayer({
+            url: "https://jakartasatu.jakarta.go.id/server/rest/services/Rencana_Struktur_Ruang/FeatureServer/17",
+            title: "Peta Jaringan Pengelolaan Air Limbah",
+            visible: false,
+            popupTemplate: popupRencanaStruktur,
+          });
+        const layerJaringanAirMinum = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Rencana_Struktur_Ruang/FeatureServer/18",
+          title: "Peta Jaringan Air Minum",
+          visible: false,
+          popupTemplate: popupRencanaStruktur,
+        });
+
+        // Layer Tematik RDTR
+        const pengendalianPertumbuhan = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Hosted/Peta_Tematik_RDTR/FeatureServer/0",
+          title: "Zona Pengendalian Pertumbuhan",
+          visible: false,
+        });
+
+        const popupKoridorGSB = {
+          title: "{Nama}",
+          content:
+            "<hr><b>Nama</b> : {Nama}<br><hr><b>Tipologi</b> : {Tipologi}",
+        };
+
+        const koridorGSB = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Hosted/Peta_Tematik_RDTR/FeatureServer/1",
+          title: "Koridor GSB Nol",
+          popupTemplate: popupKoridorGSB,
+          visible: false,
+        });
+
+        const popupKawasanTransit = {
+          title: "{NAMOBJ}",
+          content: "<hr><b>Nama</b> : {NAMOBJ}<br>",
+        };
+
+        const kawasanTransit = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Hosted/Peta_Tematik_RDTR/FeatureServer/2",
+          title: "Kawasan Berorientasi Transit",
+          popupTemplate: popupKawasanTransit,
+          visible: false,
+        });
+
+        const popupKawasanKompak = {
+          title: "{NAMOBJ}",
+          content: "<hr><b>Nama</b> : {NAMOBJ}<br>",
+        };
+
+        const kawasanKompak = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Hosted/Peta_Tematik_RDTR/FeatureServer/3",
+          title: "Kawasan Kompak",
+          popupTemplate: popupKawasanKompak,
+          visible: false,
+        });
+
+        const popupKetentuanKhusus = {
+          title: "{NAMOBJ}",
+          content: "<hr><b>Nama</b> : {NAMOBJ}<br>",
+        };
+
+        const ketentuanKhusus = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Hosted/Peta_Tematik_RDTR/FeatureServer/4",
+          title: "Zona Ketentuan Khusus",
+          popupTemplate: popupKetentuanKhusus,
+          visible: false,
+        });
+
+        const popupZonaAmbang = {
+          title: "{NAMOBJ}",
+          content: "<hr><b>Nama</b> : {NAMOBJ}<br>",
+        };
+
+        const zonaAmbang = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Hosted/Peta_Tematik_RDTR/FeatureServer/5",
+          title: "Zona Ambang",
+          popupTemplate: popupZonaAmbang,
+          visible: false,
+        });
+
+        const popupCagarBudaya = {
+          title: "{NAMOBJ}",
+          content: "<hr><b>Nama</b> : {NAMOBJ}<br>",
+        };
+
+        const cagarBudaya = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Hosted/Peta_Tematik_RDTR/FeatureServer/6",
+          title: "Zona Pelestarian Cagar Budaya",
+          popupTemplate: popupCagarBudaya,
+          visible: false,
+        });
+
+        const popupKawasanAirTanah = {
+          title: "{Nama}",
+          content: "<hr><b>Nama</b> : {Nama}<br><hr><b>Wilayah</b> : {Wilayah}",
+        };
+
+        const kawasanAirTanah = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Hosted/Peta_Tematik_RDTR/FeatureServer/7",
+          title: "Kawasan Bebas Air Tanah",
+          popupTemplate: popupKawasanAirTanah,
+          visible: false,
+        });
+
+        const popupJalanAirTanah = {
+          title: "{Nama}",
+          content: "<hr><b>Nama</b> : {Nama}<br><hr><b>Wilayah</b> : {Wilayah}",
+        };
+
+        const jalanAirTanah = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Hosted/Peta_Tematik_RDTR/FeatureServer/8",
+          title: "Jalan Bebas Air Tanah",
+          popupTemplate: popupJalanAirTanah,
+          visible: false,
+        });
+
+        const popupRTHRTB = {
+          title: "{NAMOBJ}",
+          content: "<hr><b>Nama</b> : {NAMOBJ}<br>",
+        };
+
+        const petensiRTHRTB = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Hosted/Peta_Tematik_RDTR/FeatureServer/9",
+          title: "Potensi RTH dan RTB",
+          popupTemplate: popupRTHRTB,
+          visible: false,
+        });
+
+        const popupKKOP = {
+          title: "{kawasan}",
+          content: "<hr><b>Kawasan</b> : {kawasan}<br>",
+        };
+
+        const kawasanterbang = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Hosted/Peta_Tematik_RDTR/FeatureServer/10",
+          title: "Kawasan Keselamatan Operasi Penerbangan",
+          popupTemplate: popupKKOP,
+          visible: false,
+        });
+
+        const popupBangCagarBudaya = {
+          title: "{namaobj}",
+          content:
+            "<hr><b>Nama</b> : {namaobj}<br><hr><b>Cagar Budaya</b> : {cagbud}<br>",
+        };
+
+        const bangunanCagarBudaya = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Hosted/Peta_Tematik_RDTR/FeatureServer/11",
+          title: "Bangunan Cagar Budaya",
+          popupTemplate: popupBangCagarBudaya,
+          visible: false,
+        });
+
+        const popupPelayananIPAL = {
+          title: "{remark}",
+          content: "<hr><b>Nama</b> : {remark}<br>",
+        };
+
+        const daerahPelayananIPAL = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Hosted/Peta_Tematik_RDTR/FeatureServer/12",
+          title: "Daerah Pelayanan IPAL",
+          popupTemplate: popupPelayananIPAL,
+          visible: false,
+        });
+
+        const popupLayananPolder = {
+          title: "{namobj}",
+          content: "<hr><b>Nama</b> : {namobj}<br>",
+        };
+
+        const daerahLayananPolder = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Hosted/Peta_Tematik_RDTR/FeatureServer/13",
+          title: "Daerah Layanan Polder",
+          popupTemplate: popupLayananPolder,
+          visible: false,
+        });
+
+        const popupZonaDagangJasa = {
+          title: "{namobj}",
+          content: "<hr><b>Nama</b> : {namobj}<br>",
+        };
+
+        const intensitasZonaDagangJasa = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Hosted/Peta_Tematik_RDTR/FeatureServer/14",
+          title: "Intensitas Zona Perdagangan dan Jasa",
+          popupTemplate: popupZonaDagangJasa,
+          visible: false,
+        });
+
+        const popupKoridorBatasLalin = {
+          title: "{namobj}",
+          content: "<hr><b>Nama</b> : {namobj}<br>",
+        };
+
+        const koridorPembatasanLaluLintas = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Hosted/Peta_Tematik_RDTR/FeatureServer/15",
+          title: "Koridor Pembatasan Lalu Lintas",
+          popupTemplate: popupKoridorBatasLalin,
+          visible: false,
+        });
+
+        // const popupPenurunanMukaTanah = {
+        //   title: "{remark}",
+        //   content: "<hr><b>Nama</b> : {remark}<br>"
+        // };
+
+        const kawasanRawanPenurunanMukaTanah = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Hosted/Peta_Tematik_RDTR/FeatureServer/16",
+          title: "Kawasan Rawan Penurunan Muka Tanah",
+          // popupTemplate: popupPenurunanMukaTanah,
+          visible: false,
+        });
+
+        const popupKawasanRawanBanjir = {
+          title: "{hazard_cla}",
+          content: "<hr><b>Kelas Banjir</b> : {hazard_cla}<br>",
+        };
+
+        const kawasanRawanBanjir = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Hosted/Peta_Tematik_RDTR/FeatureServer/17",
+          title: "Kawasan Rawan Banjir",
+          popupTemplate: popupKawasanRawanBanjir,
+          visible: false,
+        });
+
+        const popupZonaBonus = {
+          title: "{namobj}",
+          content: "<hr><b>Nama</b> : {namobj}<br>",
+        };
+
+        const zonaBonus = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Hosted/Peta_Tematik_RDTR/FeatureServer/18",
+          title: "Zona Bonus",
+          popupTemplate: popupZonaBonus,
+          visible: false,
+        });
+
+        const popupZonaIntensitasSangatTinggi = {
+          title: "{namobj}",
+          content: "<hr><b>Nama</b> : {namobj}<br>",
+        };
+
+        const zonaIntensitasSangatTinggi = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Hosted/Peta_Tematik_RDTR/FeatureServer/19",
+          title: "Zona Intensitas Sangat Tinggi",
+          popupTemplate: popupZonaIntensitasSangatTinggi,
+          visible: false,
+        });
+        // Akhir Layer Tematik RDTR
+
+        //Layer Batas Admin
+
+        const batasAdminProv = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Hosted/Batas_Provinsi_Jakarta/FeatureServer",
+          title: "Batas Provinsi",
+          visible: false,
+        });
+
+        const popupKota = {
+          title: "{WADMKK}",
+          content: "<hr><b>Kabupaten/Kota</b> : {WADMKK}<br>",
+        };
+
+        const batasAdminKota = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Batas_Administrasi_Update/Batas_Administrasi_DKI_Jakarta_Update_View/FeatureServer/4",
+          title: "Batas Kabupaten/Kota",
+          popupTemplate: popupKota,
+          visible: false,
+        });
+
+        const popupKec = {
+          title: "{WADMKC}",
+          content: "<hr><b>Kecamatan</b> : {WADMKC}<br>",
+        };
+
+        const batasAdminKec = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Batas_Administrasi_Update/Batas_Administrasi_DKI_Jakarta_Update_View/FeatureServer/3",
+          title: "Batas Kecamatan",
+          popupTemplate: popupKec,
+          visible: false,
+        });
+
+        const popupKel = {
+          title: "{WADMKD}",
+          content: "<hr><b>Kecamatan</b> : {WADMKD}<br>",
+        };
+
+        const batasAdminKel = new FeatureLayer({
+          url: "https://jakartasatu.jakarta.go.id/server/rest/services/Batas_Administrasi_Update/Batas_Administrasi_DKI_Jakarta_Update_View/FeatureServer/2",
+          title: "Batas Kelurahan",
+          popupTemplate: popupKel,
+          visible: false,
+        });
+        //Akhir Layer Batas Admin
+
+        //Layer Peta Riwayat Tataruang
+        const popupPetaRTRW2005 = {
+          title: "{RENCANA}",
+          content:
+            "<hr><b>Kecamatan</b> : {KECAMATAN}<br><hr><b>Rencana</b> : {RENCANA}<br>",
+        };
+
+        const petaRTRW2005 = new FeatureLayer({
+          url: "https://tataruang.jakarta.go.id/server/rest/services/RDTR_2022/Rencana_Pola_Ruang_RDTR_2022/FeatureServer",
+          title: "Rencana Rinci Tata Ruang Wilayah 2005",
+          popupTemplate: popupPetaRTRW2005,
+          visible: false,
+        });
+
+        const popupPetaOPS2014 = {
+          title: "{SUB_ZONA}",
+          content:
+            "<hr><b>Kode Blok</b> : {KODE_BLOK}<br><hr><b>Sub Blok</b> : {SUB_BLOK}<br><hr><b>Sub Zona</b> : {SUB_ZONA}<br><hr><b>TPZ</b> : {TPZ}<br><hr><b>CD TPZ</b> : {CD_TPZ}<br><hr><b>ID Sub Blok</b> : {ID_SUBBLOK}<br><hr><b>Zona</b> : {ZONA}<br><hr><b>PSL</b> : {PSL}<br><hr><b>KDB</b> : {KDB}<br><hr><b>KLB</b> : {KLB}<br><hr><b>KB</b> : {KB}<br><hr><b>KDH</b> : {KDH}<br><hr><b>KTB</b> : {KTB}<br><hr><b>Tipe</b> : {TIPE}<br><hr><b>Diizinkan</b> : {DIIZINKAN}<br><hr><b>Terbatas</b> : {TERBATAS}<br><hr><b>Bersyarat</b> : {BERSYARAT}<br><hr><b>Terbatas Bersyarat</b> : {TERBATAS_BERSYARAT}<br>",
+        };
+
+        const petaOPS2014 = new FeatureLayer({
+          url: "https://tataruang.jakarta.go.id/server/rest/services/peta_operasional/Informasi_Rencana_Kota_DKI_Jakarta_View/FeatureServer/3",
+          title: "Rencana Detail Tata Ruang 2014",
+          popupTemplate: popupPetaOPS2014,
+          visible: false,
+        });
+
+        const popupPetaOPS2014DimJalan = {
+          title: "Dimensi Jalan : {DIMENSI}",
+          content:
+            "<hr><b>Dimensi</b> : {DIMENSI}<br><hr><b>Kecamatan</b> : {KECAMATAN}<br><hr><b>Keterangan</b> : {KETERANGAN}<br><hr><b>Jenis</b> : {JENIS}<br><hr><b>Nama</b> : {NAMA}<br><hr><b>Tipologi</b> : {TIPOLOGI}<br><hr>",
+        };
+
+        const petaOPS2014DimJalan = new FeatureLayer({
+          url: "https://tataruang.jakarta.go.id/server/rest/services/peta_operasional/Informasi_Rencana_Kota_DKI_Jakarta_View/FeatureServer/0",
+          title: "Rencana Dimensi Jalan 2014",
+          popupTemplate: popupPetaOPS2014DimJalan,
+          visible: false,
+        });
+
+        const popupPetaOPS2014DimSungai = {
+          title: "Dimensi Sungai : {DIMENSI}",
+          content:
+            "<hr><b>Dimensi</b> : {DIMENSI}<br><hr><b>Kecamatan</b> : {KECAMATAN}<br><hr><b>Keterangan</b> : {KETERANGAN}<br>",
+        };
+
+        const petaOPS2014DimSungai = new FeatureLayer({
+          url: "https://tataruang.jakarta.go.id/server/rest/services/peta_operasional/Informasi_Rencana_Kota_DKI_Jakarta_View/FeatureServer/1",
+          title: "Rencana Dimensi Sungai 2014",
+          popupTemplate: popupPetaOPS2014DimSungai,
+          visible: false,
+        });
+
+        const popupPetaOPS2014RencanaJalan = {
+          title: "Dimensi Sungai : {DIMENSI}",
+          content:
+            "<hr><b>Nama</b> : {NAMA}<br><hr><b>Lebar Jalan</b> : {LEBAR_JLN}<br><hr><b>Tipologi</b> : {TIPOLOGI}<br><hr><b>Kelas</b> : {KLAS}<br><hr><b>Kecamatan</b> : {KECAMATAN}<br>",
+        };
+
+        const petaOPS2014RencanaJalan = new FeatureLayer({
+          url: "https://tataruang.jakarta.go.id/server/rest/services/peta_operasional/Informasi_Rencana_Kota_DKI_Jakarta_View/FeatureServer/2",
+          title: "Rencana Jalan 2014",
+          popupTemplate: popupPetaOPS2014RencanaJalan,
+          visible: false,
+        });
+
+        // Group Tematik
+        const groupTematik = new GroupLayer({
+          title: "Peta Tematik RDTR",
+          visible: false,
+          layers: [
+            kawasanterbang,
+            intensitasZonaDagangJasa,
+            petensiRTHRTB,
+            kawasanRawanPenurunanMukaTanah,
+            kawasanRawanBanjir,
+            daerahPelayananIPAL,
+            daerahLayananPolder,
+            jalanAirTanah,
+            kawasanAirTanah,
+            zonaBonus,
+            zonaIntensitasSangatTinggi,
+            cagarBudaya,
+            zonaAmbang,
+            ketentuanKhusus,
+            kawasanKompak,
+            kawasanTransit,
+            koridorGSB,
+            koridorPembatasanLaluLintas,
+            pengendalianPertumbuhan,
+            bangunanCagarBudaya,
+          ],
+          opacity: 0.75,
+        });
+
+        const groupAdmin = new GroupLayer({
+          title: "Batas Administrasi Jakarta",
+          visible: false,
+          layers: [
+            batasAdminKel,
+            batasAdminKec,
+            batasAdminKota,
+            batasAdminProv,
+          ],
+          opacity: 0.75,
+        });
+
+        const groupRiwayatRDTR = new GroupLayer({
+          title: "Peta Riwayat Tata Ruang",
+          visible: false,
+          layers: [
+            petaRTRW2005,
+            petaOPS2014,
+            petaOPS2014DimJalan,
+            petaOPS2014DimSungai,
+            petaOPS2014RencanaJalan,
+          ],
+          opacity: 0.75,
+        });
+
+        const groupRDTR = new GroupLayer({
+          title: "Rencana Detail Tata Ruang",
+          visible: true,
+          layers: [layerrdtr],
+          opacity: 0.75,
+        });
+
+        const strukturPetaDasar = new GroupLayer({
+          title: "Peta Dasar Struktur",
+          visible: false,
+          layers: [layerStrukturPetaDasar],
+          opacity: 0.75,
+        });
+
+        const groupRencana = new GroupLayer({
+          title: "Rencana Struktur RDTR",
+          visible: false,
+          layers: [
+            layerInfrastrukturTransportasi,
+            layerInfrastrukturTelekomunikasi,
+            layerInfrastrukturSumberDayaAir,
+            layerPengembanganPusatPelayanan,
+            layerInfrastrukturPrasaranaLainnya,
+            layerJaringanPersampahan,
+            layerInfrastrukturEnergi,
+            layerInfrastrukturDrainase,
+            layerInfrastrukturPengelolaanAirLimbahdanPengelolaanLimbahB3,
+            layerInfrastrukturAirMinum,
+            layerJaringanTransportasi,
+            layerJaringanTelekomunikasi,
+            layerJaringanSumberDayaAir,
+            layerJaringanPrasaranaLainnya,
+            layerJaringanEnergi,
+            layerJaringanDrainase,
+            layerJaringanPengelolaanAirLimbahdanPengelolaanLimbahB3,
+            layerJaringanAirMinum,
+          ],
+          opacity: 0.75,
+        });
+
+        const map = new Map({
+          basemap: "satellite",
+          layers: [
+            strukturPetaDasar,
+            groupRiwayatRDTR,
+            groupRDTR,
+            groupAdmin,
+            groupRencana,
+            groupTematik,
+          ],
+        });
+
+        // MapView Properties
+        const view = new MapView({
+          container: "viewDiv",
+          map: map,
+          zoom: 16,
+          center: [106.82708535539939, -6.175675446806454],
+        });
+
+        //**********WIDGET-WIDGET**********//
+
+        //TOP-LEFT WIDGET
+        // Compass
+        const compassWidget = new Compass({
+          view: view,
+        });
+        view.ui.add(compassWidget, "top-left");
+
+        // Fullscreen
+        fullscreen = new Fullscreen({
+          view: view,
+        });
+        view.ui.add(fullscreen, "top-left");
+
+        // Basemap Gallery
+        const basemapGallery = new BasemapGallery({
+          view: view,
+          container: document.createElement("div"),
+        });
+        const bgExpand = new Expand({
+          view: view,
+          content: basemapGallery,
+          expandTooltip: "Basemap",
+        });
+        basemapGallery.watch("activeBasemap", () => {
+          const mobileSize =
+            view.heightBreakpoint === "xsmall" ||
+            view.widthBreakpoint === "xsmall";
+          if (mobileSize) {
+            bgExpand.collapse();
+          }
+        });
+        view.ui.add(bgExpand, {
+          position: "top-left",
+        });
+
+        //Layer List
+        const layerList = new LayerList({
+          view: view,
+        });
+        const layerExpand = new Expand({
+          view: view,
+          content: layerList,
+          expandTooltip: "Layer Data",
+        });
+        layerList.watch("activeLayer", () => {
+          const mobileSize =
+            view.heightBreakpoint === "xsmall" ||
+            view.widthBreakpoint === "xsmall";
+          if (mobileSize) {
+            layerExpand.collapse();
+          }
+        });
+        view.ui.add(layerExpand, "top-left");
+
+        //Overlay Expand Widget Logic
+        var expandHandle1, expandHandle2;
+        expandHandle1 = watchUtils.pausable(
+          bgExpand,
+          "expanded",
+          function (newValue) {
+            if (newValue === true) {
+              expandHandle1.pause();
+              setTimeout(function () {
+                expandHandle2.resume();
+              }, 100);
+            } else {
+              expandHandle1.resume();
+            }
+            if (layerExpand.expanded) {
+              layerExpand.collapse();
+            }
+          }
+        );
+
+        expandHandle2 = watchUtils.pausable(
+          layerExpand,
+          "expanded",
+          function (newValue) {
+            if (newValue === true) {
+              expandHandle2.pause();
+              setTimeout(function () {
+                expandHandle1.resume();
+              }, 100);
+            } else {
+              expandHandle2.resume();
+            }
+            if (bgExpand.expanded) {
+              bgExpand.collapse();
+            }
+          }
+        );
+
+        //TOP-RIGHT WIDGET
+        // Search
+        const searchWidget = new Search({
+          view: view,
+        });
+        view.ui.add(searchWidget, "top-right");
+
+        //Measurement
+        view.ui.add("topbar", "top-right");
+        document
+          .getElementById("distanceButton")
+          .addEventListener("click", function () {
+            setActiveWidget(null);
+            if (!this.classList.contains("active")) {
+              setActiveWidget("distance");
+            } else {
+              setActiveButton(null);
+            }
+          });
+        document
+          .getElementById("areaButton")
+          .addEventListener("click", function () {
+            setActiveWidget(null);
+            if (!this.classList.contains("active")) {
+              setActiveWidget("area");
+            } else {
+              setActiveButton(null);
+            }
+          });
+        function setActiveWidget(type) {
+          switch (type) {
+            case "distance":
+              activeWidget = new DistanceMeasurement2D({
+                view: view,
+              });
+              // skip the initial 'new measurement' button
+              activeWidget.viewModel.start();
+              view.ui.add(activeWidget, "top-right");
+              setActiveButton(document.getElementById("distanceButton"));
+              break;
+            case "area":
+              activeWidget = new AreaMeasurement2D({
+                view: view,
+              });
+              // Measurement labels can be accessed from this property
+              activeWidget.watch(
+                "viewModel.measurement",
+                function (measurement) {
+                  var ukur = measurement.area.toFixed(2);
+                  document.getElementById("ukur").value = ukur;
+                }
+              );
+              // skip the initial 'new measurement' button
+              activeWidget.viewModel.start();
+              view.ui.add(activeWidget, "top-right");
+              setActiveButton(document.getElementById("areaButton"));
+              break;
+            case null:
+              if (activeWidget) {
+                view.ui.remove(activeWidget);
+                activeWidget.destroy();
+                activeWidget = null;
+              }
+              break;
+          }
+        }
+        function setActiveButton(selectedButton) {
+          // focus the view to activate keyboard shortcuts for sketching
+          view.focus();
+          var elements = document.getElementsByClassName("active");
+          for (var i = 0; i < elements.length; i++) {
+            elements[i].classList.remove("active");
+          }
+          if (selectedButton) {
+            selectedButton.classList.add("active");
+          }
+        }
+
+        //BOTTOM-LEFT WIDGET
+        // Koordinat
+        const ccWidget = new CoordinateConversion({
+          view: view,
+        });
+        view.ui.add(ccWidget, "bottom-left");
+
+        //OFF MAPVIEW WIDGET
+        // Filter Kegiatan
+        const kegiatanElement = document.getElementById("kegiatan-filter");
+        kegiatanElement.addEventListener("click", filterByKegiatan);
+
+        function filterByKegiatan() {
+          const markedCheckbox = document.getElementsByClassName("checkboxCL");
+          const queryWhere = [];
+          for (const checkbox of markedCheckbox) {
+            if (checkbox.checked) {
+              if (queryWhere.length > 0) {
+                queryWhere.push("OR IZN LIKE '%" + checkbox.value + "%'");
+              } else {
+                queryWhere.push("IZN LIKE '%" + checkbox.value + "%'");
+              }
+            }
+          }
+          console.log(kegiatanLayerView);
+          kegiatanLayerView.filter = {
+            where: queryWhere.join(" ").toString(),
+          };
+          
+        }
+        view.whenLayerView(layerrdtr).then(function (layerView) {
+          kegiatanLayerView = layerView;
+        });
+
+        view.on("click", getAttribute); // klik di view untuk eksekusi get atribut dari layerrdtr
+
+        // Function untuk mendapatkan attribute layerrdtr
+        function getAttribute(event) {
+          const opts = {
+            include: layerrdtr,
+          };
+          view.hitTest(event, opts).then(getGraphics);
+          function getGraphics(response) {
+            if (response.results.length) {
+              const graphic = response.results[0].graphic;
+              const kdb = graphic.attributes.KDB;
+              const klb = graphic.attributes.KLB;
+              const kdh = graphic.attributes.KDH;
+              document.getElementById("kdb").value = kdb;
+              document.getElementById("klb").value = klb;
+              document.getElementById("kdh").value = kdh;
+            }
+          }
+        }
+
+        //PDF POP-UP
+
+        // Buat variable link pdf
+        const Badan_Air =
+          "https://drive.google.com/file/d/1nIQF9PLCqcoOOGyc8gJpvBBssmbtocEZ/view";
+        const Badan_Jalan =
+          "https://drive.google.com/file/d/1lApPlP8_JD69vPbBRDTxizMf2fzzcEqN/view";
+        const Cagar_Alam =
+          "https://drive.google.com/file/d/15y2e-jBXC2reoJAkchXSkY8eFoGS4KJ2/view";
+        const Ekosistem_Mangrove =
+          "https://drive.google.com/file/d/1TM5z1qR8i3nNsVPxR7cw7ALXr5e6BNUg/view";
+        const Hortikultura =
+          "https://drive.google.com/file/d/1YvfEkGRtTSmQZu5gNFs5V7swCNKLvqkY/view";
+        const Hutan_Lindung =
+          "https://drive.google.com/file/d/1OL7fiDOrO1OnUvdDM1rghsLjeCoRA-u6/view";
+        const Hutan_Produksi_Tetap =
+          "https://drive.google.com/file/d/1cKC4avUgGABk34Yc0t45uiYULTeHb5gn/view";
+        const Jalur_Hijau =
+          "https://drive.google.com/file/d/1rESpH_Ol3toRRAyLzgvW816Pn1VsmPML/view";
+        const Kawasan_Peruntukan_Industri =
+          "https://drive.google.com/file/d/1tJecUc3aTTmOf6wLzzXXRZylJmnoaJ-9/view";
+        const Pariwisata =
+          "https://drive.google.com/file/d/1q1-vMhis4Q2uTmrxlPm0CZKl0YCsMnKX/view";
+        const Pemakaman =
+          "https://drive.google.com/file/d/1sLKi40og4U05p57vVEM1OqoCllpG0cO5/view";
+        const Pembangkitan_Tenaga_Listrik =
+          "https://drive.google.com/file/d/1Q-xTjrYBszg588T40phV-JAvcuni6Wug/view";
+        const Perdagangan_dan_Jasa_Skala_Kota =
+          "https://drive.google.com/file/d/1cxoNrdIARBVKu2f1MR7TiRmKTFzP9_MP/view";
+        const Perdagangan_dan_Jasa_Skala_SWP =
+          "https://drive.google.com/file/d/19Ks5YspqzRdJswgQ0W47tPkGENxMzC0_/view";
+        const Perdagangan_dan_Jasa_Skala_WP =
+          "https://drive.google.com/file/d/1Ew_pU9dDzWcqRDBAs_z5Zfp-dzuLOCqV/view";
+        const Perikanan_Budi_Daya =
+          "https://drive.google.com/file/d/12e3VP3ierdUh0UgHv_2gyJ9AkMWPYcKf/view";
+        const Perkantoran =
+          "https://drive.google.com/file/d/1CFgG6VwcAWZUR0ZyL8rN914hE27AbX8E/view";
+        const Perlindungan_Setempat =
+          "https://drive.google.com/file/d/1SUXg2mDZy4xjRPOj-S-kbSxjXUhlBjuR/view";
+        const Pertahanan_dan_Keamanan =
+          "https://drive.google.com/file/d/1mEY5NzqR1e6lvVW9b6HxOw4OHiBsCvv7/view";
+        const Perumahan_Kepadatan_Sangat_Tinggi =
+          "https://drive.google.com/file/d/1ioedp6FDAUJhu4pM-Ihz-8wZO0_JT0KK/view";
+        const Perumahan_Kepadatan_Tinggi =
+          "https://drive.google.com/file/d/1EqbSZezfUAowPMJMVUnNi-XJ-qhKRXIG/view";
+        const Rimba_Kota =
+          "https://drive.google.com/file/d/16mZ1cvvzRPgBzcHj4qPeLgYuBx6C4O6E/view";
+        const SPU_Skala_Kecamatan =
+          "https://drive.google.com/file/d/1u3zxC0L8pS3IfQkbAVRZ0DeCoQyIQGdU/view";
+        const SPU_Skala_Kelurahan =
+          "https://drive.google.com/file/d/1IQvWu3ekZ9d5SIU_9fhVc7b1k-7FVtvY/view";
+        const SPU_Skala_Kota =
+          "https://drive.google.com/file/d/1q2KvRIvLvNeSNOvsQIHzgpZXd4sj_p6H/view";
+        const Suaka_Margasatwa =
+          "https://drive.google.com/file/d/1EPgWFRt90olJGXR7bFZ17L-rtNUh_bKT/view";
+        const Taman_Kecamatan =
+          "https://drive.google.com/file/d/143RCRaFQueVmhrumcsRFZqm_R6OPy3oU/view";
+        const Taman_Kelurahan =
+          "https://drive.google.com/file/d/1INq7tI76odioXhx3fKQK8tgJK41gYx_2/view";
+        const Taman_Kota =
+          "https://drive.google.com/file/d/1zycpFG7dAeGzozB7MHPtyMaNoTzNjsNm/view";
+        const Taman_Nasional =
+          "https://drive.google.com/file/d/1JIkvPgRaPV-Wq8B4o5EjkgtSbt6Uoq-X/view";
+        const Taman_Pulau_Kecil =
+          "https://drive.google.com/file/d/1P1O-1nO0tiPeCO2R97yHndgKi_Yyt32w/view";
+        const Taman_RT =
+          "https://drive.google.com/file/d/1arJZB3lvY0pzAM3AjLfl0jf0UnoVoQru/view";
+        const Taman_RW =
+          "https://drive.google.com/file/d/1qmbSDmtvxZsuUT3_8Xap270Xo9sSCaNB/view";
+        const Taman_Wisata_Alam =
+          "https://drive.google.com/file/d/1vmWYnWTIo2o2wR4Ss6ZeAvhroy_AqFKG/view";
+        const Transportasi =
+          "https://drive.google.com/file/d/1AZGKyxkGJJ9c2JcYqO9xyQ3AiRcdjXRT/view";
+
+        //Function logika penghubung attribute layer dengan link pdf
+        function unduhpdf() {
+          const namobj = view.popup.selectedFeature.attributes.NAMOBJ;
+          if (namobj === "Badan Air") {
+            window.open(Badan_Air, "_blank");
+          } else if (namobj === "Badan Jalan") {
+            window.open(Badan_Jalan, "_blank");
+          } else if (namobj === "Cagar Alam") {
+            window.open(Cagar_Alam, "_blank");
+          } else if (namobj === "Ekosistem Mangrove") {
+            window.open(Ekosistem_Mangrove, "_blank");
+          } else if (namobj === "Hortikultura") {
+            window.open(Hortikultura, "_blank");
+          } else if (namobj === "Hutan Lindung") {
+            window.open(Hutan_Lindung, "_blank");
+          } else if (namobj === "Hutan Produksi Tetap") {
+            window.open(Hutan_Produksi_Tetap, "_blank");
+          } else if (namobj === "Kawasan Peruntukan Industri") {
+            window.open(Kawasan_Peruntukan_Industri, "_blank");
+          } else if (namobj === "Pariwisata") {
+            window.open(Pariwisata, "_blank");
+          } else if (namobj === "Pemakaman") {
+            window.open(Pemakaman, "_blank");
+          } else if (namobj === "Pembangkitan Tenaga Listrik") {
+            window.open(Pembangkitan_Tenaga_Listrik, "_blank");
+          } else if (namobj === "Perdagangan dan Jasa Skala Kota") {
+            window.open(Perdagangan_dan_Jasa_Skala_Kota, "_blank");
+          } else if (namobj === "Perdagangan dan Jasa Skala SWP") {
+            window.open(Perdagangan_dan_Jasa_Skala_SWP, "_blank");
+          } else if (namobj === "Perdagangan dan Jasa Skala WP") {
+            window.open(Perdagangan_dan_Jasa_Skala_WP, "_blank");
+          } else if (namobj === "Perikanan Budi Daya") {
+            window.open(Perikanan_Budi_Daya, "_blank");
+          } else if (namobj === "Perkantoran") {
+            window.open(Perkantoran, "_blank");
+          } else if (namobj === "Perlindungan Setempat") {
+            window.open(Perlindungan_Setempat, "_blank");
+          } else if (namobj === "Pertahanan dan Keamanan") {
+            window.open(Pertahanan_dan_Keamanan, "_blank");
+          } else if (namobj === "Perumahan Kepadatan Sangat Tinggi") {
+            window.open(Perumahan_Kepadatan_Sangat_Tinggi, "_blank");
+          } else if (namobj === "Perumahan Kepadatan Tinggi") {
+            window.open(Perumahan_Kepadatan_Tinggi, "_blank");
+          } else if (namobj === "Rimba Kota") {
+            window.open(Rimba_Kota, "_blank");
+          } else if (namobj === "SPU Skala Kecamatan") {
+            window.open(SPU_Skala_Kecamatan, "_blank");
+          } else if (namobj === "SPU Skala Kelurahan") {
+            window.open(SPU_Skala_Kelurahan, "_blank");
+          } else if (namobj === "SPU Skala Kota") {
+            window.open(SPU_Skala_Kota, "_blank");
+          } else if (namobj === "Suaka Margasatwa") {
+            window.open(Suaka_Margasatwa, "_blank");
+          } else if (namobj === "Taman Kecamatan") {
+            window.open(Taman_Kecamatan, "_blank");
+          } else if (namobj === "Taman Kelurahan") {
+            window.open(Taman_Kelurahan, "_blank");
+          } else if (namobj === "Taman Kota") {
+            window.open(Taman_Kota, "_blank");
+          } else if (namobj === "Taman Nasional") {
+            window.open(Taman_Nasional, "_blank");
+          } else if (namobj === "Taman Pulau Kecil") {
+            window.open(Taman_Pulau_Kecil, "_blank");
+          } else if (namobj === "Taman RT") {
+            window.open(Taman_RT, "_blank");
+          } else if (namobj === "Taman RW") {
+            window.open(Taman_RW, "_blank");
+          } else if (namobj === "Taman Wisata Alam") {
+            window.open(Taman_Wisata_Alam, "_blank");
+          } else if (namobj === "Transportasi") {
+            window.open(Transportasi, "_blank");
+          }
+        }
+
+        //Klik unduh informasi dengan id "unduh-pdf" untuk menjalankan function unduhpdf()
+        view.popup.on("trigger-action", (event) => {
+          // Execute the measureThis() function if the measure-this action is clicked
+          if (event.action.id === "unduh-pdf") {
+            unduhpdf();
+          }
+        });
+      });
+
+      // Function untuk search and filter kegiatan
+      function searchKegiatan() {
+        var input, filter, listKegiatan, kegiatan, a, i, txtValue;
+        input = document.getElementById("searchInput");
+        filter = input.value.toUpperCase();
+        listKegiatan = document.getElementById("kegiatan-filter");
+        kegiatan = listKegiatan.getElementsByClassName("form-check");
+        for (i = 0; i < kegiatan.length; i++) {
+          a = kegiatan[i].getElementsByClassName("form-check-label")[0];
+          txtValue = a.textContent || a.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            kegiatan[i].style.display = "";
+          } else {
+            kegiatan[i].style.display = "none";
+          }
+        }
+      }
+    </script>
+  </head>
+
+  <body>
+    <div class="row">
+      <!-- INI PETA  -->
+      <div class="leftcolumn">
+        <div class="card">
+          <br />
+          <a
+            href="https://docs.google.com/document/d/1YYcQLN_LqoQQ43y0SyE9F9AOByLUF8DtrR20izO_1Zo/preview"
+            target="new_blank"
+            ><button type="button" class="btn_unduh">
+              Tutorial Penggunaan
+            </button></a
+          >
+          <a href="https://youtu.be/d5RB7SYL66w" target="new_blank"
+            ><button type="button" class="btn_video">
+              Video Tutorial Penggunaan
+            </button></a
+          >
+
+          <!-- <hr style="color: rgb(255, 255, 255); background-color: #fff; size: 0ch;"> -->
+          <div id="viewDiv"></div>
+          <div id="topbar">
+            <button
+              class="action-button esri-icon-measure-area"
+              id="areaButton"
+              type="button"
+              title="Gambar Lahan Perencanaan"
+            ></button>
+            <button
+              class="action-button esri-icon-measure-line"
+              id="distanceButton"
+              type="button"
+              title="Measure distance between two or more points"
+            ></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- INI FILTER KEGIATAN  -->
+      <div class="rightcolumn">
+        <div class="login-box">
+          <h3 style="color: rgba(0, 0, 0, 0.7); margin-bottom: 16px">
+            Jenis Kegiatan
+          </h3>
+          <p style="color: rgb(9, 156, 17); margin-bottom: 10px">
+            Menampilkan zonasi RDTR sesuai dengan kegiatan yang dipilih
+          </p>
+          <input
+            type="text"
+            id="searchInput"
+            onkeyup="searchKegiatan()"
+            placeholder="Cari kegiatan..."
+            title="Cari Kegiatan"
+            autocomplete="off"
+          />
+          <div id="kegiatan-filter" class="esri-widget scrollable-menu">
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Agen Gas Elpiji"
+                class="checkboxCL"
+                data-kegiatan="Agen Gas Elpiji"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Agen Gas Elpiji</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Apartemen Hotel / Service Apartemen / Kondominium Hotel"
+                class="checkboxCL"
+                data-kegiatan="Apartemen Hotel / Service Apartemen / Kondominium Hotel"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Apartemen Hotel / Service Apartemen / Kondominium Hotel</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Apotek"
+                class="checkboxCL"
+                data-kegiatan="Apotek"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Apotek</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Arena Permainan"
+                class="checkboxCL"
+                data-kegiatan="Arena Permainan"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Arena Permainan</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="ATM Drive-Thru"
+                class="checkboxCL"
+                data-kegiatan="ATM Drive-Thru"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >ATM Drive-Thru</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Balai Warga"
+                class="checkboxCL"
+                data-kegiatan="Balai Warga"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Balai Warga</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Bandara Khusus"
+                class="checkboxCL"
+                data-kegiatan="Bandara Khusus"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Bandara Khusus</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Bandara Umum"
+                class="checkboxCL"
+                data-kegiatan="Bandara Umum"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Bandara Umum</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Bangunan Agen Kurir"
+                class="checkboxCL"
+                data-kegiatan="Bangunan Agen Kurir"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Bangunan Agen Kurir</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Bangunan Analis dan Uji Teknis"
+                class="checkboxCL"
+                data-kegiatan="Bangunan Analis dan Uji Teknis"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Bangunan Analis dan Uji Teknis</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Bangunan Industri Kecil"
+                class="checkboxCL"
+                data-kegiatan="Bangunan Industri Kecil"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Bangunan Industri Kecil</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Bangunan Industri Menengah dan Besar"
+                class="checkboxCL"
+                data-kegiatan="Bangunan Industri Menengah dan Besar"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Bangunan Industri Menengah dan Besar</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Bangunan Industri Menengah dan Besar (Bangunan)"
+                class="checkboxCL"
+                data-kegiatan="Bangunan Industri Menengah dan Besar (Bangunan)"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Bangunan Industri Menengah dan Besar (Bangunan)</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Bangunan Instalasi Energi"
+                class="checkboxCL"
+                data-kegiatan="Bangunan Instalasi Energi"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Bangunan Instalasi Energi</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Bangunan Jasa Penerbitan"
+                class="checkboxCL"
+                data-kegiatan="Bangunan Jasa Penerbitan"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Bangunan Jasa Penerbitan</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Bangunan Katering"
+                class="checkboxCL"
+                data-kegiatan="Bangunan Katering"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Bangunan Katering</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Bangunan Kepolisian"
+                class="checkboxCL"
+                data-kegiatan="Bangunan Kepolisian"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Bangunan Kepolisian</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Bangunan Ketenaganukliran"
+                class="checkboxCL"
+                data-kegiatan="Bangunan Ketenaganukliran"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Bangunan Ketenaganukliran</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Bangunan Kurir/Pos"
+                class="checkboxCL"
+                data-kegiatan="Bangunan Kurir/Pos"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Bangunan Kurir/Pos</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Bangunan Pelayanan Penunjang Kesehatan"
+                class="checkboxCL"
+                data-kegiatan="Bangunan Pelayanan Penunjang Kesehatan"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Bangunan Pelayanan Penunjang Kesehatan</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Bangunan Pencucian dan Salon Kendaraan Bermotor"
+                class="checkboxCL"
+                data-kegiatan="Bangunan Pencucian dan Salon Kendaraan Bermotor"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Bangunan Pencucian dan Salon Kendaraan Bermotor</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Bangunan Pendidikan Anak Usia Dini"
+                class="checkboxCL"
+                data-kegiatan="Bangunan Pendidikan Anak Usia Dini"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Bangunan Pendidikan Anak Usia Dini</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Bangunan Pendidikan Dasar dan Menengah"
+                class="checkboxCL"
+                data-kegiatan="Bangunan Pendidikan Dasar dan Menengah"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Bangunan Pendidikan Dasar dan Menengah</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Bangunan Pendidikan Tinggi"
+                class="checkboxCL"
+                data-kegiatan="Bangunan Pendidikan Tinggi"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Bangunan Pendidikan Tinggi</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Bangunan Penelitian dan Pengembangan Ilmu"
+                class="checkboxCL"
+                data-kegiatan="Bangunan Penelitian dan Pengembangan Ilmu"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Bangunan Penelitian dan Pengembangan Ilmu</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Bangunan Pengobatan Alternatif/ Tradisional"
+                class="checkboxCL"
+                data-kegiatan="Bangunan Pengobatan Alternatif/ Tradisional"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Bangunan Pengobatan Alternatif/ Tradisional</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Bangunan Pengolahan Air Bersih"
+                class="checkboxCL"
+                data-kegiatan="Bangunan Pengolahan Air Bersih"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Bangunan Pengolahan Air Bersih</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Bangunan Pengolahan Air Limbah"
+                class="checkboxCL"
+                data-kegiatan="Bangunan Pengolahan Air Limbah"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Bangunan Pengolahan Air Limbah</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Bangunan Pengolahan Air Limbah B3"
+                class="checkboxCL"
+                data-kegiatan="Bangunan Pengolahan Air Limbah B3"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Bangunan Pengolahan Air Limbah B3</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Bangunan Penitipan Anak (Daycare)"
+                class="checkboxCL"
+                data-kegiatan="Bangunan Penitipan Anak (Daycare)"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Bangunan Penitipan Anak (Daycare)</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Bangunan Penitipan Hewan (Pet Shop)"
+                class="checkboxCL"
+                data-kegiatan="Bangunan Penitipan Hewan (Pet Shop)"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Bangunan Penitipan Hewan (Pet Shop)</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Bangunan Penyediaan Jasa Perorangan Untuk Kebugaran Bukan Olahraga"
+                class="checkboxCL"
+                data-kegiatan="Bangunan Penyediaan Jasa Perorangan Untuk Kebugaran Bukan Olahraga"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Bangunan Penyediaan Jasa Perorangan Untuk Kebugaran Bukan
+                Olahraga</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Bangunan Peternakan"
+                class="checkboxCL"
+                data-kegiatan="Bangunan Peternakan"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Bangunan Peternakan</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Bangunan Pusat Data (Data Center)"
+                class="checkboxCL"
+                data-kegiatan="Bangunan Pusat Data (Data Center)"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Bangunan Pusat Data (Data Center)</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Bangunan Saringan Sampah"
+                class="checkboxCL"
+                data-kegiatan="Bangunan Saringan Sampah"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Bangunan Saringan Sampah</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Bangunan TNI AD"
+                class="checkboxCL"
+                data-kegiatan="Bangunan TNI AD"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Bangunan TNI AD</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Bangunan TNI AL"
+                class="checkboxCL"
+                data-kegiatan="Bangunan TNI AL"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Bangunan TNI AL</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Bangunan TNI AU"
+                class="checkboxCL"
+                data-kegiatan="Bangunan TNI AU"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Bangunan TNI AU</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Bangunan Untuk Aktivitas Pertambangan"
+                class="checkboxCL"
+                data-kegiatan="Bangunan Untuk Aktivitas Pertambangan"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Bangunan Untuk Aktivitas Pertambangan</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Bangunan Untuk Penyewaan Alat Konstruksi"
+                class="checkboxCL"
+                data-kegiatan="Bangunan Untuk Penyewaan Alat Konstruksi"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Bangunan Untuk Penyewaan Alat Konstruksi</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Bank Sampah"
+                class="checkboxCL"
+                data-kegiatan="Bank Sampah"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Bank Sampah</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Batching Plant"
+                class="checkboxCL"
+                data-kegiatan="Batching Plant"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Batching Plant</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Bengkel"
+                class="checkboxCL"
+                data-kegiatan="Bengkel"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Bengkel</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Binatu/ Laundry"
+                class="checkboxCL"
+                data-kegiatan="Binatu/ Laundry"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Binatu/ Laundry</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Bioskop"
+                class="checkboxCL"
+                data-kegiatan="Bioskop"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Bioskop</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Budidaya Perikanan Air Laut"
+                class="checkboxCL"
+                data-kegiatan="Budidaya Perikanan Air Laut"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Budidaya Perikanan Air Laut</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Budidaya Perikanan Air Tawar"
+                class="checkboxCL"
+                data-kegiatan="Budidaya Perikanan Air Tawar"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Budidaya Perikanan Air Tawar</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Bumi Perkemahan / Taman Karavan"
+                class="checkboxCL"
+                data-kegiatan="Bumi Perkemahan / Taman Karavan"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Bumi Perkemahan / Taman Karavan</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Daur Ulang"
+                class="checkboxCL"
+                data-kegiatan="Daur Ulang"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Daur Ulang</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Departement Store / Pusat Perbelanjaan"
+                class="checkboxCL"
+                data-kegiatan="Departement Store / Pusat Perbelanjaan"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Departement Store / Pusat Perbelanjaan</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Depo Amunisi"
+                class="checkboxCL"
+                data-kegiatan="Depo Amunisi"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Depo Amunisi</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Dermaga Penyeberangan"
+                class="checkboxCL"
+                data-kegiatan="Dermaga Penyeberangan"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Dermaga Penyeberangan</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Drainase"
+                class="checkboxCL"
+                data-kegiatan="Drainase"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Drainase</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Fasilitas Gelanggang / Arena "
+                class="checkboxCL"
+                data-kegiatan="Fasilitas Gelanggang / Arena "
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Fasilitas Gelanggang / Arena
+              </label>
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Fasilitas Pemadam Kebakaran"
+                class="checkboxCL"
+                data-kegiatan="Fasilitas Pemadam Kebakaran"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Fasilitas Pemadam Kebakaran</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Fasilitas Pengolahan Sampah Antara (FPSA)"
+                class="checkboxCL"
+                data-kegiatan="Fasilitas Pengolahan Sampah Antara (FPSA)"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Fasilitas Pengolahan Sampah Antara (FPSA)</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Fasilitas Sirkuit"
+                class="checkboxCL"
+                data-kegiatan="Fasilitas Sirkuit"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Fasilitas Sirkuit</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Game Center"
+                class="checkboxCL"
+                data-kegiatan="Game Center"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Game Center</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Gedung Kesenian"
+                class="checkboxCL"
+                data-kegiatan="Gedung Kesenian"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Gedung Kesenian</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Gedung Olahraga"
+                class="checkboxCL"
+                data-kegiatan="Gedung Olahraga"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Gedung Olahraga</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Gedung Serba Guna"
+                class="checkboxCL"
+                data-kegiatan="Gedung Serba Guna"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Gedung Serba Guna</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Gelanggang Renang"
+                class="checkboxCL"
+                data-kegiatan="Gelanggang Renang"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Gelanggang Renang</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Gereja"
+                class="checkboxCL"
+                data-kegiatan="Gereja"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Gereja</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Guest House/Rumah Kos"
+                class="checkboxCL"
+                data-kegiatan="Guest House/Rumah Kos"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Guest House/Rumah Kos</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Helipad"
+                class="checkboxCL"
+                data-kegiatan="Helipad"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Helipad</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Homestay"
+                class="checkboxCL"
+                data-kegiatan="Homestay"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Homestay</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Hotel"
+                class="checkboxCL"
+                data-kegiatan="Hotel"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Hotel</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Hutan Kota"
+                class="checkboxCL"
+                data-kegiatan="Hutan Kota"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Hutan Kota</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Hutan Produksi"
+                class="checkboxCL"
+                data-kegiatan="Hutan Produksi"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Hutan Produksi</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Hypermarket"
+                class="checkboxCL"
+                data-kegiatan="Hypermarket"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Hypermarket</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Industri Mikro"
+                class="checkboxCL"
+                data-kegiatan="Industri Mikro"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Industri Mikro</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Jalan"
+                class="checkboxCL"
+                data-kegiatan="Jalan"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Jalan</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Jaringan Perpipaan"
+                class="checkboxCL"
+                data-kegiatan="Jaringan Perpipaan"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Jaringan Perpipaan</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Jaringan Serat Optik"
+                class="checkboxCL"
+                data-kegiatan="Jaringan Serat Optik"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Jaringan Serat Optik</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Jasa Pemakaman"
+                class="checkboxCL"
+                data-kegiatan="Jasa Pemakaman"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Jasa Pemakaman</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Jembatan"
+                class="checkboxCL"
+                data-kegiatan="Jembatan"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Jembatan</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Kafe/ Kedai Minuman"
+                class="checkboxCL"
+                data-kegiatan="Kafe/ Kedai Minuman"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Kafe/ Kedai Minuman</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Kantor dan Bisnis Profesional"
+                class="checkboxCL"
+                data-kegiatan="Kantor dan Bisnis Profesional"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Kantor dan Bisnis Profesional</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Kantor Lembaga Keuangan"
+                class="checkboxCL"
+                data-kegiatan="Kantor Lembaga Keuangan"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Kantor Lembaga Keuangan</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Kantor Yayasan/Organisasi Kemasyarakatan"
+                class="checkboxCL"
+                data-kegiatan="Kantor Yayasan/Organisasi Kemasyarakatan"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Kantor Yayasan/Organisasi Kemasyarakatan</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Karaoke"
+                class="checkboxCL"
+                data-kegiatan="Karaoke"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Karaoke</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Kebun Binatang"
+                class="checkboxCL"
+                data-kegiatan="Kebun Binatang"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Kebun Binatang</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Kedai Obat Tradisional/ Jamu"
+                class="checkboxCL"
+                data-kegiatan="Kedai Obat Tradisional/ Jamu"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Kedai Obat Tradisional/ Jamu</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Kelab Malam, Diskotik, Bar, Pub"
+                class="checkboxCL"
+                data-kegiatan="Kelab Malam, Diskotik, Bar, Pub"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Kelab Malam, Diskotik, Bar, Pub</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Kelenteng"
+                class="checkboxCL"
+                data-kegiatan="Kelenteng"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Kelenteng</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Klinik Hewan"
+                class="checkboxCL"
+                data-kegiatan="Klinik Hewan"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Klinik Hewan</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Klinik Pratama"
+                class="checkboxCL"
+                data-kegiatan="Klinik Pratama"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Klinik Pratama</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Klinik Utama"
+                class="checkboxCL"
+                data-kegiatan="Klinik Utama"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Klinik Utama</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Kolam Pemancingan"
+                class="checkboxCL"
+                data-kegiatan="Kolam Pemancingan"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Kolam Pemancingan</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Kolam Retensi / Waduk / Situ / Embung / danau"
+                class="checkboxCL"
+                data-kegiatan="Kolam Retensi / Waduk / Situ / Embung / danau"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Kolam Retensi / Waduk / Situ / Embung / danau</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Koperasi"
+                class="checkboxCL"
+                data-kegiatan="Koperasi"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Koperasi</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Laboratorium Forensik"
+                class="checkboxCL"
+                data-kegiatan="Laboratorium Forensik"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Laboratorium Forensik</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Laboratorium Kesehatan"
+                class="checkboxCL"
+                data-kegiatan="Laboratorium Kesehatan"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Laboratorium Kesehatan</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Lapangan Olahraga"
+                class="checkboxCL"
+                data-kegiatan="Lapangan Olahraga"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Lapangan Olahraga</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Marina"
+                class="checkboxCL"
+                data-kegiatan="Marina"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Marina</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Masjid"
+                class="checkboxCL"
+                data-kegiatan="Masjid"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Masjid</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Mercusuar"
+                class="checkboxCL"
+                data-kegiatan="Mercusuar"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Mercusuar</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Minimarket"
+                class="checkboxCL"
+                data-kegiatan="Minimarket"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Minimarket</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Multifungsi (Mixed-Use) "
+                class="checkboxCL"
+                data-kegiatan="Multifungsi (Mixed-Use) "
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Multifungsi (Mixed-Use)
+              </label>
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Museum"
+                class="checkboxCL"
+                data-kegiatan="Museum"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Museum</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Musholla"
+                class="checkboxCL"
+                data-kegiatan="Musholla"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Musholla</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Padang Golf dan Arena Latihan Golf"
+                class="checkboxCL"
+                data-kegiatan="Padang Golf dan Arena Latihan Golf"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Padang Golf dan Arena Latihan Golf</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Pangkalan Penjualan Bbm dan Gas Elpiji"
+                class="checkboxCL"
+                data-kegiatan="Pangkalan Penjualan Bbm dan Gas Elpiji"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Pangkalan Penjualan Bbm dan Gas Elpiji</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Panti Sosial"
+                class="checkboxCL"
+                data-kegiatan="Panti Sosial"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Panti Sosial</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Parkir Kendaraan Berat"
+                class="checkboxCL"
+                data-kegiatan="Parkir Kendaraan Berat"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Parkir Kendaraan Berat</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Parkir Kendaraan Bermotor"
+                class="checkboxCL"
+                data-kegiatan="Parkir Kendaraan Bermotor"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Parkir Kendaraan Bermotor</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Parkir Sepeda"
+                class="checkboxCL"
+                data-kegiatan="Parkir Sepeda"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Parkir Sepeda</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Pasar Rakyat"
+                class="checkboxCL"
+                data-kegiatan="Pasar Rakyat"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Pasar Rakyat</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Patung dan/atau Tugu"
+                class="checkboxCL"
+                data-kegiatan="Patung dan/atau Tugu"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Patung dan/atau Tugu</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Pelabuhan Laut"
+                class="checkboxCL"
+                data-kegiatan="Pelabuhan Laut"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Pelabuhan Laut</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Pelabuhan Perikanan"
+                class="checkboxCL"
+                data-kegiatan="Pelabuhan Perikanan"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Pelabuhan Perikanan</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Pemakaman"
+                class="checkboxCL"
+                data-kegiatan="Pemakaman"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Pemakaman</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Pembangkit Tenaga Listrik"
+                class="checkboxCL"
+                data-kegiatan="Pembangkit Tenaga Listrik"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Pembangkit Tenaga Listrik</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Penangkapan Hewan "
+                class="checkboxCL"
+                data-kegiatan="Penangkapan Hewan "
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Penangkapan Hewan
+              </label>
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Penangkaran Hewan yang Dilindungi"
+                class="checkboxCL"
+                data-kegiatan="Penangkaran Hewan yang Dilindungi"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Penangkaran Hewan yang Dilindungi</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Pendidikan Pelatihan / Kursus"
+                class="checkboxCL"
+                data-kegiatan="Pendidikan Pelatihan / Kursus"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Pendidikan Pelatihan / Kursus</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Pergudangan dan Penyimpanan Terbuka"
+                class="checkboxCL"
+                data-kegiatan="Pergudangan dan Penyimpanan Terbuka"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Pergudangan dan Penyimpanan Terbuka</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Pergudangan dan Penyimpanan Tertutup"
+                class="checkboxCL"
+                data-kegiatan="Pergudangan dan Penyimpanan Tertutup"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Pergudangan dan Penyimpanan Tertutup</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Perikanan Tangkap"
+                class="checkboxCL"
+                data-kegiatan="Perikanan Tangkap"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Perikanan Tangkap</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Perkantoran Pemerintahan"
+                class="checkboxCL"
+                data-kegiatan="Perkantoran Pemerintahan"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Perkantoran Pemerintahan</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Perkantoran Perwakilan Negara Asing"
+                class="checkboxCL"
+                data-kegiatan="Perkantoran Perwakilan Negara Asing"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Perkantoran Perwakilan Negara Asing</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Perpustakaan dan Arsip"
+                class="checkboxCL"
+                data-kegiatan="Perpustakaan dan Arsip"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Perpustakaan dan Arsip</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Pertanian/Perkebunan"
+                class="checkboxCL"
+                data-kegiatan="Pertanian/Perkebunan"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Pertanian/Perkebunan</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Pertokoan"
+                class="checkboxCL"
+                data-kegiatan="Pertokoan"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Pertokoan</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Pesantren"
+                class="checkboxCL"
+                data-kegiatan="Pesantren"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Pesantren</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Pintu Air"
+                class="checkboxCL"
+                data-kegiatan="Pintu Air"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Pintu Air</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Pondok Wisata / Cottage"
+                class="checkboxCL"
+                data-kegiatan="Pondok Wisata / Cottage"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Pondok Wisata / Cottage</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Pool Kendaraan Berat"
+                class="checkboxCL"
+                data-kegiatan="Pool Kendaraan Berat"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Pool Kendaraan Berat</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Pool Kendaraan Ringan"
+                class="checkboxCL"
+                data-kegiatan="Pool Kendaraan Ringan"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Pool Kendaraan Ringan</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Pos Penjagaan Keamanan"
+                class="checkboxCL"
+                data-kegiatan="Pos Penjagaan Keamanan"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Pos Penjagaan Keamanan</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Pos Polisi"
+                class="checkboxCL"
+                data-kegiatan="Pos Polisi"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Pos Polisi</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Praktek Dokter  (Umum, Gigi, Spesialis) / Bidan "
+                class="checkboxCL"
+                data-kegiatan="Praktek Dokter  (Umum, Gigi, Spesialis) / Bidan "
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Praktek Dokter (Umum, Gigi, Spesialis) / Bidan
+              </label>
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Pura"
+                class="checkboxCL"
+                data-kegiatan="Pura"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Pura</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Pusat Jajan"
+                class="checkboxCL"
+                data-kegiatan="Pusat Jajan"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Pusat Jajan</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Pusat Kebugaran / Fitness Center"
+                class="checkboxCL"
+                data-kegiatan="Pusat Kebugaran / Fitness Center"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Pusat Kebugaran / Fitness Center</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Pusat Kegiatan Keagamaan"
+                class="checkboxCL"
+                data-kegiatan="Pusat Kegiatan Keagamaan"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Pusat Kegiatan Keagamaan</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Pusat Transmisi dan Pemancar Jaringan Telekomunikasi"
+                class="checkboxCL"
+                data-kegiatan="Pusat Transmisi dan Pemancar Jaringan Telekomunikasi"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Pusat Transmisi dan Pemancar Jaringan Telekomunikasi</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Puskesmas"
+                class="checkboxCL"
+                data-kegiatan="Puskesmas"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Puskesmas</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Reklame"
+                class="checkboxCL"
+                data-kegiatan="Reklame"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Reklame</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Rel"
+                class="checkboxCL"
+                data-kegiatan="Rel"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Rel</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Resort Apung"
+                class="checkboxCL"
+                data-kegiatan="Resort Apung"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Resort Apung</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Resort Wisata"
+                class="checkboxCL"
+                data-kegiatan="Resort Wisata"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Resort Wisata</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Restoran"
+                class="checkboxCL"
+                data-kegiatan="Restoran"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Restoran</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Ruang Pamer/Exhibition"
+                class="checkboxCL"
+                data-kegiatan="Ruang Pamer/Exhibition"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Ruang Pamer/Exhibition</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Rumah Dinas"
+                class="checkboxCL"
+                data-kegiatan="Rumah Dinas"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Rumah Dinas</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Rumah Flat"
+                class="checkboxCL"
+                data-kegiatan="Rumah Flat"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Rumah Flat</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Rumah Pompa"
+                class="checkboxCL"
+                data-kegiatan="Rumah Pompa"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Rumah Pompa</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Rumah Sakit"
+                class="checkboxCL"
+                data-kegiatan="Rumah Sakit"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Rumah Sakit</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Rumah Sakit/Pusat Kesehatan Hewan"
+                class="checkboxCL"
+                data-kegiatan="Rumah Sakit/Pusat Kesehatan Hewan"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Rumah Sakit/Pusat Kesehatan Hewan</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Rumah Susun Khusus"
+                class="checkboxCL"
+                data-kegiatan="Rumah Susun Khusus"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Rumah Susun Khusus</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Rumah Susun Komersial"
+                class="checkboxCL"
+                data-kegiatan="Rumah Susun Komersial"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Rumah Susun Komersial</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Rumah Susun Negara"
+                class="checkboxCL"
+                data-kegiatan="Rumah Susun Negara"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Rumah Susun Negara</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Rumah Susun Umum"
+                class="checkboxCL"
+                data-kegiatan="Rumah Susun Umum"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Rumah Susun Umum</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Rumah Tapak"
+                class="checkboxCL"
+                data-kegiatan="Rumah Tapak"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Rumah Tapak</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Sektor Usaha Informal Makanan dan Minuman"
+                class="checkboxCL"
+                data-kegiatan="Sektor Usaha Informal Makanan dan Minuman"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Sektor Usaha Informal Makanan dan Minuman</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Sektor Usaha Informal Selain Makanan dan Minuman"
+                class="checkboxCL"
+                data-kegiatan="Sektor Usaha Informal Selain Makanan dan Minuman"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Sektor Usaha Informal Selain Makanan dan Minuman</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Showroom Kendaraan Bermotor"
+                class="checkboxCL"
+                data-kegiatan="Showroom Kendaraan Bermotor"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Showroom Kendaraan Bermotor</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="SKTT, SKTM, SKTR"
+                class="checkboxCL"
+                data-kegiatan="SKTT, SKTM, SKTR"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >SKTT, SKTM, SKTR</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="SPBU/ SPBG"
+                class="checkboxCL"
+                data-kegiatan="SPBU/ SPBG"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >SPBU/ SPBG</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="SPKLU dan SPBKLU"
+                class="checkboxCL"
+                data-kegiatan="SPKLU dan SPBKLU"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >SPKLU dan SPBKLU</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Stadion"
+                class="checkboxCL"
+                data-kegiatan="Stadion"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Stadion</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Stasiun"
+                class="checkboxCL"
+                data-kegiatan="Stasiun"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Stasiun</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Stasiun Pemantau Kualitas Udara Ambien"
+                class="checkboxCL"
+                data-kegiatan="Stasiun Pemantau Kualitas Udara Ambien"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Stasiun Pemantau Kualitas Udara Ambien</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Studio Keterampilan"
+                class="checkboxCL"
+                data-kegiatan="Studio Keterampilan"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Studio Keterampilan</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Sumur"
+                class="checkboxCL"
+                data-kegiatan="Sumur"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Sumur</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Taman"
+                class="checkboxCL"
+                data-kegiatan="Taman"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Taman</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Taman Budaya / Teater Terbuka"
+                class="checkboxCL"
+                data-kegiatan="Taman Budaya / Teater Terbuka"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Taman Budaya / Teater Terbuka</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Taman Hiburan atau Taman Rekreasi"
+                class="checkboxCL"
+                data-kegiatan="Taman Hiburan atau Taman Rekreasi"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Taman Hiburan atau Taman Rekreasi</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Taman Konservasi Alam"
+                class="checkboxCL"
+                data-kegiatan="Taman Konservasi Alam"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Taman Konservasi Alam</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Taman Laut"
+                class="checkboxCL"
+                data-kegiatan="Taman Laut"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Taman Laut</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Taman Wisata Alam"
+                class="checkboxCL"
+                data-kegiatan="Taman Wisata Alam"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Taman Wisata Alam</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Tanggul"
+                class="checkboxCL"
+                data-kegiatan="Tanggul"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Tanggul</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Tempat Pelelangan Ikan"
+                class="checkboxCL"
+                data-kegiatan="Tempat Pelelangan Ikan"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Tempat Pelelangan Ikan</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Tempat Pemotongan Hewan"
+                class="checkboxCL"
+                data-kegiatan="Tempat Pemotongan Hewan"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Tempat Pemotongan Hewan</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Tempat Pemrosesan Akhir (TPA)"
+                class="checkboxCL"
+                data-kegiatan="Tempat Pemrosesan Akhir (TPA)"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Tempat Pemrosesan Akhir (TPA)</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Tempat Penampungan Sementara (TPS)"
+                class="checkboxCL"
+                data-kegiatan="Tempat Penampungan Sementara (TPS)"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Tempat Penampungan Sementara (TPS)</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Tempat Penampungan Sementara B3 (TPS B3)"
+                class="checkboxCL"
+                data-kegiatan="Tempat Penampungan Sementara B3 (TPS B3)"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Tempat Penampungan Sementara B3 (TPS B3)</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Tempat Pengolahan Sampah Dengan Prinsip Reduce, Reuse, Recycle (TPS-3R)"
+                class="checkboxCL"
+                data-kegiatan="Tempat Pengolahan Sampah Dengan Prinsip Reduce, Reuse, Recycle (TPS-3R)"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Tempat Pengolahan Sampah Dengan Prinsip Reduce, Reuse, Recycle
+                (TPS-3R)</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Tempat Pengolahan Sampah Terpadu (TPST)"
+                class="checkboxCL"
+                data-kegiatan="Tempat Pengolahan Sampah Terpadu (TPST)"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Tempat Pengolahan Sampah Terpadu (TPST)</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Terminal"
+                class="checkboxCL"
+                data-kegiatan="Terminal"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Terminal</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Terowongan/Gorong-Gorong/Tunnel"
+                class="checkboxCL"
+                data-kegiatan="Terowongan/Gorong-Gorong/Tunnel"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Terowongan/Gorong-Gorong/Tunnel</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Toko Bahan dan Perlengkapan Bangunan"
+                class="checkboxCL"
+                data-kegiatan="Toko Bahan dan Perlengkapan Bangunan"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Toko Bahan dan Perlengkapan Bangunan</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Toko Besar "
+                class="checkboxCL"
+                data-kegiatan="Toko Besar "
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Toko Besar
+              </label>
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Toko Eceran Makanan/Bahan Makanan dan Minuman"
+                class="checkboxCL"
+                data-kegiatan="Toko Eceran Makanan/Bahan Makanan dan Minuman"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Toko Eceran Makanan/Bahan Makanan dan Minuman</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Toko Eceran Selain Makanan dan Minuman"
+                class="checkboxCL"
+                data-kegiatan="Toko Eceran Selain Makanan dan Minuman"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Toko Eceran Selain Makanan dan Minuman</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Toko Swalayan"
+                class="checkboxCL"
+                data-kegiatan="Toko Swalayan"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Toko Swalayan</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Transport Shuttle "
+                class="checkboxCL"
+                data-kegiatan="Transport Shuttle "
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Transport Shuttle
+              </label>
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Vihara"
+                class="checkboxCL"
+                data-kegiatan="Vihara"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Vihara</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Vila"
+                class="checkboxCL"
+                data-kegiatan="Vila"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Vila</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Warung Internet dan Warung Telekomunikasi"
+                class="checkboxCL"
+                data-kegiatan="Warung Internet dan Warung Telekomunikasi"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Warung Internet dan Warung Telekomunikasi</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Warung Makan"
+                class="checkboxCL"
+                data-kegiatan="Warung Makan"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Warung Makan</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Wisata Agro"
+                class="checkboxCL"
+                data-kegiatan="Wisata Agro"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Wisata Agro</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                name="select1[]"
+                value="Wisata Agro (Bangunan)"
+                class="checkboxCL"
+                data-kegiatan="Wisata Agro (Bangunan)"
+              /><label class="form-check-label" for="flexCheckDefault"
+                >Wisata Agro (Bangunan)</label
+              >
+            </div>
+          </div>
+        </div>
+
+        <form
+          id="formD"
+          name="formD"
+          action=""
+          method="post"
+          enctype="multipart/form-data"
+        >
+          <div class="login-box">
+            <h3 style="color: rgba(0, 0, 0, 0.7); margin-bottom: 16px">
+              Perhitungan Intensitas
+            </h3>
+            <p style="color: rgb(9, 156, 17); margin-bottom: 10px">
+              *Pilih Zona pada Peta untuk mendapatkan nilai intensitas dan
+              tentukan luasan area
+            </p>
+            <br />
+
+            <div class="input-form-box">
+              <div class="user-box">
+                <input
+                  type="text"
+                  id="ukur"
+                  name="luaslahan"
+                  required=""
+                  onkeyup="OnChange(this.value)"
+                  onKeyPress="return isNumberKey(event)"
+                />
+                <label>Luas Lahan</label>
+              </div>
+              <div class="user-box">
+                <input
+                  type="text"
+                  id="kdb"
+                  name="kdb"
+                  required=""
+                  onkeyup="OnChange(this.value)"
+                  onKeyPress="return isNumberKey(event)"
+                />
+                <label class="label2">KDB</label>
+              </div>
+
+              <div class="user-box">
+                <input
+                  type="text"
+                  id="klb"
+                  name="klb"
+                  required=""
+                  onkeyup="OnChange(this.value)"
+                  onKeyPress="return isNumberKey(event)"
+                />
+                <label>KLB</label>
+              </div>
+              <div class="user-box">
+                <input
+                  type="text"
+                  id="kdh"
+                  name="kdh"
+                  required=""
+                  onkeyup="OnChange(this.value)"
+                  onKeyPress="return isNumberKey(event)"
+                />
+                <label class="label2">KDH</label>
+              </div>
+
+              <div class="row" style="width: 100%">
+                <input
+                  type="button"
+                  class="btn_hitung"
+                  onClick="hitung()"
+                  value="Hitung"
+                />
+                <input
+                  type="reset"
+                  style="background-color: red"
+                  class="btn_hitung"
+                  onclick="clear()"
+                  value="Reset"
+                /><br />
+                <!-- <hr class="hitung"> -->
+              </div>
+            </div>
+            <br />
+
+            <label style="font-size: 14px; color: rgb(0, 0, 0)"
+              >Luas Dasar Bangunan (m2) :</label
+            >
+            <!-- <input type="text" name="txtDisplay" value="" readonly="readonly" class="hasil"><br> -->
+            <input
+              type="text"
+              name="txtDisplaykdb"
+              value=""
+              readonly="readonly"
+              class="hasil"
+            /><br />
+
+            <label style="font-size: 14px; color: rgb(0, 0, 0)"
+              >Luas Lantai Bangunan (m2) :</label
+            >
+            <input
+              type="text"
+              name="txtDisplayklb"
+              value=""
+              readonly="readonly"
+              class="hasil"
+            /><br />
+
+            <label style="font-size: 14px; color: rgb(0, 0, 0)"
+              >Jumlah Lantai Bangunan :</label
+            >
+            <input
+              type="text"
+              name="txtDisplayklbtinggi"
+              value=""
+              readonly="readonly"
+              class="hasil"
+            /><br />
+
+            <label style="font-size: 14px; color: rgb(0, 0, 0)"
+              >Lahan Hijau :</label
+            >
+            <input
+              type="text"
+              name="txtDisplaykdh"
+              value=""
+              readonly="readonly"
+              class="hasil"
+            />
+          </div>
+        </form>
+
+        <script type="text/javascript" language="Javascript">
+          luaslahan = document.formD.luaslahan.value;
+          document.formD.txtDisplay.value = luaslahan;
+          kdb = document.formD.kdb.value;
+          document.formD.txtDisplay.value = kdb;
+          klb = document.formD.kdb.value;
+          document.formD.txtDisplay.value = klb;
+          kdh = document.formD.kdb.value;
+          document.formD.txtDisplay.value = kdh;
+
+          function hitung() {
+            luaslahan = document.formD.luaslahan.value;
+            kdb = document.formD.kdb.value;
+            klb = document.formD.klb.value;
+            kdh = document.formD.kdh.value;
+
+            totalkdbhasil = luaslahan * (kdb / 100);
+            totalkdb = totalkdbhasil.toFixed(2);
+            document.formD.txtDisplaykdb.value = totalkdb;
+
+            totalklbhasil = luaslahan * klb;
+            totalklb = totalklbhasil.toFixed(2);
+            document.formD.txtDisplayklb.value = totalklb;
+
+            tinggibangunanhasil = totalklb / totalkdb;
+            var tinggibangunan = Math.floor(tinggibangunanhasil);
+            document.formD.txtDisplayklbtinggi.value = tinggibangunan;
+
+            totalkdhhasil = luaslahan * (kdh / 100);
+            totalkdh = totalkdhhasil.toFixed(2);
+            document.formD.txtDisplaykdh.value = totalkdh;
+          }
+
+          function clear() {
+            document.formD.luaslahan.value.reset();
+          }
+        </script>
+      </div>
+    </div>
+  </body>
+</html>
