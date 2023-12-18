@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            font-family: "Lato", sans-serif;
+        }
+
+        /* Style the tab */
+        .tab {
+            float: left;
+            position: absolute;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+            width: 30%;
+            height: 100%;
+            overflow: auto;
+        }
+
+        /* Style the buttons inside the tab */
+        .tab button {
+            display: block;
+            background-color: inherit;
+            color: black;
+            padding: 20px 20px;
+            width: 100%;
+            border: none;
+            outline: none;
+            text-align: left;
+            cursor: pointer;
+            font-size: 17px;
+        }
+
+        /* Change background color of buttons on hover */
+        .tab button:hover {
+            background-color: #ddd;
+        }
+
+        /* Create an active/current "tab button" class */
+        .tab button.active {
+            background-color: #ccc;
+        }
+
+        /* Style the tab content */
+        .tabcontent {
+            /* float: left; */
+            padding: 0px 12px;
+            border: 1px solid #ccc;
+            width: 70%;
+            left: 30%;
+            border-left: none;
+            height: 100%;
+            display: none;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Clear floats after the tab */
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Lampiran PERGUB 31 Tahun 2022</h2>
+    <p>Move the mouse over a button inside the tabbed menu:</p>
+
+    <div class="tab">
+        <button class="tablinks" onclick="openCity(event,'1')" id="defaultOpen">Lampiran I - Peta Batas Wilayah
+            Administrasi Darat</button>
+        <!-- <button class="tablinks" onclick="openCity(event,'2')">Lampiran I - Peta Batas Wilayah Administrasi Laut</button> -->
+        <button class="tablinks" onclick="openCity(event,'3')">Lampiran II - Peta Rencana Pengembangan Pusat
+            Pelayanan</button>
+        <button class="tablinks" onclick="openCity(event,'4')">Lampiran II - Peta Rencana Jaringan Transportasi</button>
+        <button class="tablinks" onclick="openCity(event,'5')">Lampiran II - Peta Rencana Jaringan Energi</button>
+        <button class="tablinks" onclick="openCity(event,'6')">Lampiran II - Peta Rencana Jaringan
+            Telekomunikasi</button>
+        <button class="tablinks" onclick="openCity(event,'7')">Lampiran II - Peta Rencana Prasarana Sumber Daya
+            Air</button>
+        <button class="tablinks" onclick="openCity(event,'8')">Lampiran II - Peta Rencana Jaringan Air Minum</button>
+        <button class="tablinks" onclick="openCity(event,'9')">Lampiran II - Peta Rencana Jaringan Drainase</button>
+        <button class="tablinks" onclick="openCity(event,'10')">Lampiran II - Peta Rencana Jaringan Air Limbah dan
+            Limbah Bahan Berbahaya dan Beracun (B3)</button>
+        <button class="tablinks" onclick="openCity(event,'11')">Lampiran II - Peta Rencana Prasarana
+            Persampahan</button>
+        <button class="tablinks" onclick="openCity(event,'12')">Lampiran II - Peta Rencana Jaringan Prasarana
+            Lainnya</button>
+        <button class="tablinks" onclick="openCity(event,'13')">Lampiran III - Peta Koridor Pembatasan Lalu
+            Lintas</button>
+        <button class="tablinks" onclick="openCity(event,'14')">Lampiran IV - Peta Daerah Layanan Polder</button>
+        <button class="tablinks" onclick="openCity(event,'15')">Lampiran V - Peta Daerah Pelarangan Penggunaan Air
+            Tanah</button>
+        <button class="tablinks" onclick="openCity(event,'16')">Lampiran VI - Peta Daerah Layanan IPAL</button>
+        <button class="tablinks" onclick="openCity(event,'17')">Lampiran VII - Klasifikasi dan Kriteria Zona dan Sub
+            Zona</button>
+        <button class="tablinks" onclick="openCity(event,'18')">Lampiran VIII - Peta Rencana Pola Ruang</button>
+        <!-- <button class="tablinks" onclick="openCity(event,'19')">Lampiran IX - Indikasi Program Struktur Ruang</button> -->
+        <button class="tablinks" onclick="openCity(event,'20')">Lampiran IX - Indikasi Program Pemanfaatan
+            Ruang</button>
+        <button class="tablinks" onclick="openCity(event,'21')">Lampiran X - Ketentuan Kegiatan dan Penggunaan Lahan
+            dalam Zona/Sub Zona untuk Fungsi Bangunan</button>
+        <!-- <button class="tablinks" onclick="openCity(event,'22')">Lampiran  - Ketentuan Kegiatan dan Penggunaan Lahan dalam Zona/Sub Zona untuk Fungsi Usaha</button> -->
+        <!-- <button class="tablinks" onclick="openCity(event,'23')">Lampiran  - Daftar Bersyarat dan Terbatas</button> -->
+        <button class="tablinks" onclick="openCity(event,'24')">Lampiran XI - Intensitas Pemanfaatan Ruang</button>
+        <!-- <button class="tablinks" onclick="openCity(event,'25')">Lampiran XI.B - Intensitas Pemanfaatan Ruang Sub Zona K-1, K-2, dan K-3</button> -->
+        <button class="tablinks" onclick="openCity(event,'26')">Lampiran XII - Peta Intensitas Pemanfaatan Ruang Sub
+            Zona K-1, K-2, dan K-3</button>
+        <button class="tablinks" onclick="openCity(event,'27')">Lampiran XIII - Peta Kawasan Keselamatan Operasional
+            Penerbangan (KKOP)</button>
+        <button class="tablinks" onclick="openCity(event,'28')">Lampiran XIII - Peta Bangunan Cagar Budaya</button>
+        <button class="tablinks" onclick="openCity(event,'29')">Lampiran XIII - Peta Kawasan Rawan Bencana</button>
+        <button class="tablinks" onclick="openCity(event,'30')">Lampiran XIII - Peta Kawasan Rawan Banjir</button>
+        <button class="tablinks" onclick="openCity(event,'31')">Lampiran XIII - Peta Kawasan Rawan Penurunan Muka
+            Tanah</button>
+        <button class="tablinks" onclick="openCity(event,'32')">Lampiran XIII - Peta Kawasan Sempadan</button>
+        <button class="tablinks" onclick="openCity(event,'33')">Lampiran XIV - Daftar Bangunan Cagar Budaya dan
+            Golongan</button>
+        <button class="tablinks" onclick="openCity(event,'34')">Lampiran XV - Kegiatan Hunian</button>
+        <button class="tablinks" onclick="openCity(event,'35')">Lampiran XVI - Koridor GSB Nol</button>
+        <button class="tablinks" onclick="openCity(event,'36')">Lampiran XVII - Peta Koridor GSB Nol</button>
+        <button class="tablinks" onclick="openCity(event,'37')">Lampiran XVIII - Peta Potensi Ruang Terbuka Hijau dan
+            Ruang Terbuka Biru</button>
+        <button class="tablinks" onclick="openCity(event,'38')">Lampiran XIX - Zona Bonus (Kode b)</button>
+        <button class="tablinks" onclick="openCity(event,'39')">Lampiran XIX - Zona Performa (Kode d)</button>
+        <button class="tablinks" onclick="openCity(event,'40')">Lampiran XIX - Zona Ambang (Kode h)</button>
+        <button class="tablinks" onclick="openCity(event,'41')">Lampiran XIX - Zona Khusus (Kode j)</button>
+        <button class="tablinks" onclick="openCity(event,'42')">Lampiran XIX - Pengendalian Pertumbuhan (Kode
+            K-1)</button>
+        <button class="tablinks" onclick="openCity(event,'43')">Lampiran XIX - Pengendalian Pertumbuhan (Kode
+            K-2)</button>
+        <button class="tablinks" onclick="openCity(event,'44')">Lampiran XIX - Pelestarian Cagar Budaya (Kode
+            L)</button>
+        <button class="tablinks" onclick="openCity(event,'45')">Lampiran XIX - Zona Intensitas Sangat Tinggi (Kode
+            m1)</button>
+        <button class="tablinks" onclick="openCity(event,'46')">Lampiran XIX - Zona Intensitas Sangat Tinggi (Kode
+            m2)</button>
+        <button class="tablinks" onclick="openCity(event,'47')">Lampiran XX - Peta Indeks Pengendali</button>
+    </div>
+
+    <!-- <div id="40" class="tabcontent">
+  <h3>Lampiran I - Peta Batas Wilayah Administrasi Darat</h3>
+  <p>Peta Batas Wilayah Administrasi Darat.</p>
+  <img src="https://jakartasatu.jakarta.go.id/portal/sharing/rest/content/items/21202b9625704955b328daf6457916e4/data" width="550"/>
+</div>
+
+<div id="1" class="tabcontent">
+  <h3>Lampiran I - Peta Batas Wilayah Administrasi Darat</h3>
+  <p>Peta Batas Wilayah Administrasi Darat.</p>
+  <img src="https://jakartasatu.jakarta.go.id/portal/sharing/rest/content/items/21202b9625704955b328daf6457916e4/data" width="550"/>
+</div> -->
+
+    <div id="1" class="tabcontent">
+        <h3>Lampiran I - Peta Batas Wilayah Administrasi Darat</h3>
+        <p>Peta Batas Wilayah Administrasi Darat</p><img
+            src="https://jakartasatu.jakarta.go.id/portal/sharing/rest/content/items/e11643efccda467d8b0a4a39ee6520be/data"
+            width="550" />
+    </div>
+    <!-- <div id="2" class="tabcontent"><h3>Lampiran I - Peta Batas Wilayah Administrasi Laut</h3><p>Peta Batas Wilayah Administrasi Laut</p><img src="#" width="550"/></div> -->
+    <div id="3" class="tabcontent">
+        <h3>Lampiran II - Peta Rencana Pengembangan Pusat Pelayanan</h3>
+        <p>Peta Rencana Pengembangan Pusat Pelayanan</p><img
+            src="https://jakartasatu.jakarta.go.id/portal/sharing/rest/content/items/8b15cc44cf354dda8a5c042ea49a8610/data"
+            width="550" />
+    </div>
+    <div id="4" class="tabcontent">
+        <h3>Lampiran II - Peta Rencana Jaringan Transportasi</h3>
+        <p>Peta Rencana Jaringan Transportasi</p><img
+            src="https://jakartasatu.jakarta.go.id/portal/sharing/rest/content/items/2eb23d1dc5ce4326a094e73b6239824b/data"
+            width="550" />
+    </div>
+    <div id="5" class="tabcontent">
+        <h3>Lampiran II - Peta Rencana Jaringan Energi</h3>
+        <p>Peta Rencana Jaringan Energi</p><img
+            src="https://jakartasatu.jakarta.go.id/portal/sharing/rest/content/items/c84b6462294d41f384528324b4b28cf1/data"
+            width="550" />
+    </div>
+    <div id="6" class="tabcontent">
+        <h3>Lampiran II - Peta Rencana Jaringan Telekomunikasi</h3>
+        <p>Peta Rencana Jaringan Telekomunikasi</p><img
+            src="https://jakartasatu.jakarta.go.id/portal/sharing/rest/content/items/20f8da8b8d044448be3567b293ee4c7f/data"
+            width="550" />
+    </div>
+    <div id="7" class="tabcontent">
+        <h3>Lampiran II - Peta Rencana Prasarana Sumber Daya Air</h3>
+        <p>Peta Rencana Prasarana Sumber Daya Air</p><img
+            src="https://jakartasatu.jakarta.go.id/portal/sharing/rest/content/items/9d0a17d49a8d4af9abedba7f9c3d2433/data"
+            width="550" />
+    </div>
+    <div id="8" class="tabcontent">
+        <h3>Lampiran II - Peta Rencana Jaringan Air Minum</h3>
+        <p>Peta Rencana Jaringan Air Minum</p><img
+            src="https://jakartasatu.jakarta.go.id/portal/sharing/rest/content/items/070ba9bac84e4a68be3466dfac68a784/data"
+            width="550" />
+    </div>
+    <div id="9" class="tabcontent">
+        <h3>Lampiran II - Peta Rencana Jaringan Drainase</h3>
+        <p>Peta Rencana Jaringan Drainase</p><img
+            src="https://jakartasatu.jakarta.go.id/portal/sharing/rest/content/items/0b0f5fc1e8cc41e382051c127bae22ae/data"
+            width="550" />
+    </div>
+    <div id="10" class="tabcontent">
+        <h3>Lampiran II - Peta Rencana Jaringan Air Limbah dan Limbah Bahan Berbahaya dan Beracun (B3)</h3>
+        <p>Peta Rencana Jaringan Air Limbah dan Limbah Bahan Berbahaya dan Beracun (B3)</p><img
+            src="https://jakartasatu.jakarta.go.id/portal/sharing/rest/content/items/2efa4fb7fa364197a18545400ffdbbc1/data"
+            width="550" />
+    </div>
+    <div id="11" class="tabcontent">
+        <h3>Lampiran II - Peta Rencana Prasarana Persampahan</h3>
+        <p>Peta Rencana Prasarana Persampahan</p><img
+            src="https://jakartasatu.jakarta.go.id/portal/sharing/rest/content/items/5246abcb56624dc5997d2a1557932303/data"
+            width="550" />
+    </div>
+    <div id="12" class="tabcontent">
+        <h3>Lampiran II - Peta Rencana Jaringan Prasarana Lainnya</h3>
+        <p>Peta Rencana Jaringan Prasarana Lainnya</p><img
+            src="https://jakartasatu.jakarta.go.id/portal/sharing/rest/content/items/a2c66dfafa214921b034670f2230debb/data"
+            width="550" />
+    </div>
+    <div id="13" class="tabcontent">
+        <h3>Lampiran III - Peta Koridor Pembatasan Lalu Lintas</h3>
+        <p>Peta Koridor Pembatasan Lalu Lintas</p><img
+            src="https://jakartasatu.jakarta.go.id/portal/sharing/rest/content/items/81dc8a87f4a34899b799f05af56c7e23/data"
+            width="550" />
+    </div>
+    <div id="14" class="tabcontent">
+        <h3>Lampiran IV - Peta Daerah Layanan Polder</h3>
+        <p>Peta Daerah Layanan Polder</p><img
+            src="https://jakartasatu.jakarta.go.id/portal/sharing/rest/content/items/b54ea2dbd1844817b81e42a8e1f2d159/data"
+            width="550" />
+    </div>
+    <div id="15" class="tabcontent">
+        <h3>Lampiran V - Peta Daerah Pelarangan Penggunaan Air Tanah</h3>
+        <p>Peta Daerah Pelarangan Penggunaan Air Tanah</p><img
+            src="https://jakartasatu.jakarta.go.id/portal/sharing/rest/content/items/b8d9384169e34c9aa728b0c9720c366f/data"
+            width="550" />
+    </div>
+    <div id="16" class="tabcontent">
+        <h3>Lampiran VI - Peta Daerah Layanan IPAL</h3>
+        <p>Peta Daerah Layanan IPAL</p><img
+            src="https://jakartasatu.jakarta.go.id/portal/sharing/rest/content/items/00b27645d66a4812999aa13a391740b5/data"
+            width="550" />
+    </div>
+    <div id="17" class="tabcontent">
+        <h3>Lampiran VII - Klasifikasi dan Kriteria Zona dan Sub Zona</h3>
+        <p>Klasifikasi dan Kriteria Zona dan Sub Zona</p><iframe
+            src="https://drive.google.com/file/d/1H2KhhYlU55izqU-sssoKJgIbowG6n5RW/preview" width="100%"
+            height="650"></iframe>
+    </div>
+    <div id="18" class="tabcontent">
+        <h3>Lampiran VIII - Peta Rencana Pola Ruang</h3>
+        <p>Peta Rencana Pola Ruang</p><img
+            src="https://jakartasatu.jakarta.go.id/portal/sharing/rest/content/items/2c66d9ba791645d9958cdcd7018c7c36/data"
+            width="550" />
+    </div>
+    <!-- <div id="19" class="tabcontent"><h3>Lampiran IX - Indikasi Program Struktur Ruang</h3><p>Indikasi Program Struktur Ruang</p><img src="https://jakartasatu.jakarta.go.id/portal/sharing/rest/content/items/8740ccb4586846319434cd730e924681/data" width="550"/></div> -->
+    <div id="20" class="tabcontent">
+        <h3>Lampiran IX - Indikasi Program Pemanfaatan Ruang</h3>
+        <p>Indikasi Program Pemanfaatan Ruang</p><iframe
+            src="https://drive.google.com/file/d/1obF-RirftS2SNIwH9Y8buMDlkl5lSxSJ/preview" width="100%"
+            height="650"></iframe>
+    </div>
+    <div id="21" class="tabcontent">
+        <h3>Lampiran X - Ketentuan Kegiatan dan Penggunaan Lahan dalam Zona/Sub Zona untuk Fungsi Bangunan</h3>
+        <p>Ketentuan Kegiatan dan Penggunaan Lahan dalam Zona/Sub Zona untuk Fungsi Bangunan</p><iframe
+            src="https://drive.google.com/file/d/1yNv4YV-U7qbKyDr6TVb-nLqyCJZswQHh/preview" width="100%"
+            height="650"></iframe>
+    </div>
+    <!-- <div id="22" class="tabcontent"><h3>Lampiran  - Ketentuan Kegiatan dan Penggunaan Lahan dalam Zona/Sub Zona untuk Fungsi Usaha</h3><p>Ketentuan Kegiatan dan Penggunaan Lahan dalam Zona/Sub Zona untuk Fungsi Usaha</p><img src="#" width="550"/></div> -->
+    <!-- <div id="23" class="tabcontent"><h3>Lampiran  - Daftar Bersyarat dan Terbatas</h3><p>Daftar Bersyarat dan Terbatas</p><img src="#" width="550"/></div> -->
+    <div id="24" class="tabcontent">
+        <h3>Lampiran XI - Intensitas Pemanfaatan Ruang</h3>
+        <p>Intensitas Pemanfaatan Ruang</p><iframe
+            src="https://drive.google.com/file/d/1OoIAXX8A35qGJHpu1pFxLZIlb7kqDdQR/preview" width="100%"
+            height="650"></iframe>
+    </div>
+    <!-- <div id="25" class="tabcontent"><h3>Lampiran XI.B - Intensitas Pemanfaatan Ruang Sub Zona K-1, K-2, dan K-3</h3><p>Intensitas Pemanfaatan Ruang Sub Zona K-1, K-2, dan K-3</p><img src="#" width="550"/></div> -->
+    <div id="26" class="tabcontent">
+        <h3>Lampiran XII - Peta Intensitas Pemanfaatan Ruang Sub Zona K-1, K-2, dan K-3</h3>
+        <p>Peta Intensitas Pemanfaatan Ruang Sub Zona K-1, K-2, dan K-3</p><img
+            src="https://jakartasatu.jakarta.go.id/portal/sharing/rest/content/items/e6372c0bfaf44a359433ed0511684e5f/data"
+            width="550" />
+    </div>
+    <div id="27" class="tabcontent">
+        <h3>Lampiran XIII - Peta Kawasan Keselamatan Operasional Penerbangan (KKOP)</h3>
+        <p>Peta Kawasan Keselamatan Operasional Penerbangan (KKOP)</p><img
+            src="https://jakartasatu.jakarta.go.id/portal/sharing/rest/content/items/42d1cfb1f9904efebd2645322310f635/data"
+            width="550" />
+    </div>
+    <div id="28" class="tabcontent">
+        <h3>Lampiran XIII - Peta Bangunan Cagar Budaya</h3>
+        <p>Peta Bangunan Cagar Budaya</p><img
+            src="https://jakartasatu.jakarta.go.id/portal/sharing/rest/content/items/44179a59a84f49da813b1884f73546df/data"
+            width="550" />
+    </div>
+    <div id="29" class="tabcontent">
+        <h3>Lampiran XIII - Peta Kawasan Rawan Bencana</h3>
+        <p>Peta Kawasan Rawan Bencana</p><img
+            src="https://jakartasatu.jakarta.go.id/portal/sharing/rest/content/items/7e45d654943843849532ace31ba556f2/data"
+            width="550" />
+    </div>
+    <div id="30" class="tabcontent">
+        <h3>Lampiran XIII - Peta Kawasan Rawan Banjir</h3>
+        <p>Peta Kawasan Rawan Banjir</p><img
+            src="https://jakartasatu.jakarta.go.id/portal/sharing/rest/content/items/a20a4f22fc684d0da7c603e57e896644/data"
+            width="550" />
+    </div>
+    <div id="31" class="tabcontent">
+        <h3>Lampiran XIII - Peta Kawasan Rawan Penurunan Muka Tanah</h3>
+        <p>Peta Kawasan Rawan Penurunan Muka Tanah</p><img
+            src="https://jakartasatu.jakarta.go.id/portal/sharing/rest/content/items/ce95c54e8c674a84912ad5a38e2e2050/data"
+            width="550" />
+    </div>
+    <div id="32" class="tabcontent">
+        <h3>Lampiran XIII - Peta Kawasan Sempadan</h3>
+        <p>Peta Kawasan Sempadan</p><img
+            src="https://jakartasatu.jakarta.go.id/portal/sharing/rest/content/items/89c3c7abacdc483ab145691a1a4fcd07/data"
+            width="550" />
+    </div>
+    <div id="33" class="tabcontent">
+        <h3>Lampiran XIV - Daftar Bangunan Cagar Budaya dan Golongan</h3>
+        <p>Daftar Bangunan Cagar Budaya dan Golongan</p><iframe
+            src="https://drive.google.com/file/d/1TGUfr-e3Z2M6_DY92lnbe-dn4Svjex0B/preview" width="100%"
+            height="650"></iframe>
+    </div>
+    <div id="34" class="tabcontent">
+        <h3>Lampiran XV - Kegiatan Hunian</h3>
+        <p>Kegiatan Hunian</p><iframe src="https://drive.google.com/file/d/1Iz5UCAmFRXX-Ut3eeRjRfQ7IU7q7YL6f/preview"
+            width="100%" height="650"></iframe>
+    </div>
+    <div id="35" class="tabcontent">
+        <h3>Lampiran XVI - Koridor GSB Nol</h3>
+        <p>Koridor GSB Nol</p><iframe src="https://drive.google.com/file/d/1bRG8xYo0xj6xfGB4BQ5y3IwvZ4Bji5Nf/preview"
+            width="100%" height="650"></iframe>
+    </div>
+    <div id="36" class="tabcontent">
+        <h3>Lampiran XVII - Peta Koridor GSB Nol</h3>
+        <p>Peta Koridor GSB Nol</p><img
+            src="https://jakartasatu.jakarta.go.id/portal/sharing/rest/content/items/83f0a86c5ef0489e8d1b766483e6ed12/data"
+            width="550" />
+    </div>
+    <div id="37" class="tabcontent">
+        <h3>Lampiran XVIII - Peta Potensi Ruang Terbuka Hijau dan Ruang Terbuka Biru</h3>
+        <p>Peta Potensi Ruang Terbuka Hijau dan Ruang Terbuka Biru</p><img
+            src="https://jakartasatu.jakarta.go.id/portal/sharing/rest/content/items/b3da3a03ec8d48ffa40b620af8e3d67e/data"
+            width="550" />
+    </div>
+    <div id="38" class="tabcontent">
+        <h3>Lampiran XIX - Zona Bonus (Kode b)</h3>
+        <p>Zona Bonus (Kode b)</p><img
+            src="https://jakartasatu.jakarta.go.id/portal/sharing/rest/content/items/acbc5ad7816049a0b87496e75f82b723/data"
+            width="550" />
+    </div>
+    <div id="39" class="tabcontent">
+        <h3>Lampiran XIX - Zona Performa (Kode d)</h3>
+        <p>Zona Performa (Kode d)</p><img
+            src="https://jakartasatu.jakarta.go.id/portal/sharing/rest/content/items/79d8401680c2457b8a284e10e0ae32fd/data"
+            width="550" />
+    </div>
+    <div id="40" class="tabcontent">
+        <h3>Lampiran XIX - Zona Ambang (Kode h)</h3>
+        <p>Zona Ambang (Kode h)</p><img
+            src="https://jakartasatu.jakarta.go.id/portal/sharing/rest/content/items/50d0efd965c74e06b96529e41ef85936/data"
+            width="550" />
+    </div>
+    <div id="41" class="tabcontent">
+        <h3>Lampiran XIX - Zona Khusus (Kode j)</h3>
+        <p>Zona Khusus (Kode j)</p><img
+            src="https://jakartasatu.jakarta.go.id/portal/sharing/rest/content/items/7333d0871ec74afe94b0b9b77071d0a4/data"
+            width="550" />
+    </div>
+    <div id="42" class="tabcontent">
+        <h3>Lampiran XIX - Pengendalian Pertumbuhan (Kode K1)</h3>
+        <p>Pengendalian Pertumbuhan (Kode K1)</p><img
+            src="https://jakartasatu.jakarta.go.id/portal/sharing/rest/content/items/a065bfd1ab064a369b9cecd1fb92b2f9/data"
+            width="550" />
+    </div>
+    <div id="43" class="tabcontent">
+        <h3>Lampiran XIX - Pengendalian Pertumbuhan (Kode K2)</h3>
+        <p>Pengendalian Pertumbuhan (Kode K2)</p><img
+            src="https://jakartasatu.jakarta.go.id/portal/sharing/rest/content/items/7a89d089b50144369e4827d28687015f/data"
+            width="550" />
+    </div>
+    <div id="44" class="tabcontent">
+        <h3>Lampiran XIX - Pelestarian Cagar Budaya (Kode L)</h3>
+        <p>Pelestarian Cagar Budaya (Kode L)</p><img
+            src="https://jakartasatu.jakarta.go.id/portal/sharing/rest/content/items/baa9d9d5b6ad428c9eaa3773455764da/data"
+            width="550" />
+    </div>
+    <div id="45" class="tabcontent">
+        <h3>Lampiran XIX - Zona Intensitas Sangat Tinggi (Kode m1)</h3>
+        <p>Zona Intensitas Sangat Tinggi (Kode m1)</p><img
+            src="https://jakartasatu.jakarta.go.id/portal/sharing/rest/content/items/fc1e630b585f4791a915b2bfd7618dd6/data"
+            width="550" />
+    </div>
+    <div id="46" class="tabcontent">
+        <h3>Lampiran XIX - Zona Intensitas Sangat Tinggi (Kode m2)</h3>
+        <p>Zona Intensitas Sangat Tinggi (Kode m2)</p><img
+            src="https://jakartasatu.jakarta.go.id/portal/sharing/rest/content/items/4a7b8b293b174f3594cfe7f3bef7c843/data"
+            width="550" />
+    </div>
+    <div id="47" class="tabcontent">
+        <h3>Lampiran XX - Peta Indeks Pengendali</h3>
+        <p>Peta Indeks Pengendali</p><iframe
+            src="https://drive.google.com/file/d/1R3WFcMadHllZekpxxLFdSwM3V3K5IjOP/preview" width="100%"
+            height="650"></iframe>
+    </div>
+
+
+
+    <div class="clearfix"></div>
+
+    <script>
+        function openCity(evt, cityName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(cityName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        // Get the element with id="defaultOpen" and click on it
+        document.getElementById("defaultOpen").click();
+
+    </script>
+
+</body>
+
+</html>
